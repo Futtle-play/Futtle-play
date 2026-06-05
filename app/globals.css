@@ -1,26 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-color: #ffffff;
+  --bg-gradient-top: rgba(0, 128, 43, 0.025);
+  --bg-gradient-start: #ffffff;
+  --bg-gradient-end: #ffffff;
+  --text-color: #0c0c0c;
+  --border-color: rgba(0, 0, 0, 0.06);
+  --card-bg: #f6f6f2;
+  --panel-bg: rgba(0, 0, 0, 0.02);
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --accent-color: #00802b;
+  --accent-glow: rgba(0, 128, 43, 0.15);
+  --accent-classic: #00802b;
+  --accent-argentina: #1b5ba4;
+  --accent-brasil: #9a8806;
+  --accent-portugal: #be123c;
+  --accent-france: #1b5ba4;
+  --blob-1: rgba(0, 128, 43, 0.03);
+  --blob-2: rgba(27, 78, 216, 0.02);
+
+  /* Hover Border colors */
+  --border-classic: rgba(0, 128, 43, 0.3);
+  --border-argentina: rgba(27, 91, 164, 0.3);
+  --border-brasil: rgba(154, 136, 6, 0.3);
+  --border-portugal: rgba(190, 18, 60, 0.3);
+  --border-france: rgba(27, 91, 164, 0.3);
+
+  /* Hover Glow shadow colors */
+  --glow-classic: rgba(0, 128, 43, 0.08);
+  --glow-argentina: rgba(27, 91, 164, 0.08);
+  --glow-brasil: rgba(154, 136, 6, 0.08);
+  --glow-portugal: rgba(190, 18, 60, 0.08);
+  --glow-france: rgba(27, 91, 164, 0.08);
+
+  /* Button Glow shadow colors */
+  --glow-button-classic: rgba(0, 128, 43, 0.25);
+  --glow-button-argentina: rgba(27, 91, 164, 0.25);
+  --glow-button-brasil: rgba(154, 136, 6, 0.25);
+  --glow-button-portugal: rgba(190, 18, 60, 0.25);
+  --glow-button-france: rgba(27, 91, 164, 0.25);
+
+  /* Hover Text colors */
+  --accent-classic-text: #ffffff;
+  --accent-argentina-text: #ffffff;
+  --accent-brasil-text: #ffffff;
+  --accent-portugal-text: #ffffff;
+  --accent-france-text: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --bg-color: #000000;
+  --bg-gradient-top: rgba(212, 255, 58, 0.045);
+  --bg-gradient-start: #000000;
+  --bg-gradient-end: #000000;
+  --text-color: #f5f5f0;
+  --border-color: rgba(255, 255, 255, 0.05);
+  --card-bg: #0c0c0c;
+  --panel-bg: rgba(255, 255, 255, 0.02);
+  --header-bg: rgba(0, 0, 0, 0.8);
+  --accent-color: #d4ff3a;
+  --accent-glow: rgba(212, 255, 58, 0.15);
+  --accent-classic: #d4ff3a;
+  --accent-argentina: #75aadb;
+  --accent-brasil: #fded12;
+  --accent-portugal: #da121a;
+  --accent-france: #75aadb;
+  --blob-1: rgba(212, 255, 58, 0.08);
+  --blob-2: rgba(255, 77, 26, 0.06);
+
+  /* Hover Border colors */
+  --border-classic: rgba(212, 255, 58, 0.3);
+  --border-argentina: rgba(117, 170, 219, 0.3);
+  --border-brasil: rgba(253, 237, 18, 0.3);
+  --border-portugal: rgba(218, 18, 26, 0.3);
+  --border-france: rgba(117, 170, 219, 0.3);
+
+  /* Hover Glow shadow colors */
+  --glow-classic: rgba(212, 255, 58, 0.08);
+  --glow-argentina: rgba(117, 170, 219, 0.08);
+  --glow-brasil: rgba(253, 237, 18, 0.08);
+  --glow-portugal: rgba(218, 18, 26, 0.08);
+  --glow-france: rgba(117, 170, 219, 0.08);
+
+  /* Button Glow shadow colors */
+  --glow-button-classic: rgba(212, 255, 58, 0.25);
+  --glow-button-argentina: rgba(117, 170, 219, 0.25);
+  --glow-button-brasil: rgba(253, 237, 18, 0.25);
+  --glow-button-portugal: rgba(218, 18, 26, 0.25);
+  --glow-button-france: rgba(117, 170, 219, 0.25);
+
+  /* Hover Text colors */
+  --accent-classic-text: #000000;
+  --accent-argentina-text: #000000;
+  --accent-brasil-text: #000000;
+  --accent-portugal-text: #ffffff;
+  --accent-france-text: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "Space Grotesk", monospace;
+  --font-logo: "Space Grotesk", sans-serif;
+
+  --color-border-theme: var(--border-color);
+  --color-bg-theme: var(--bg-color);
+  --color-text-theme: var(--text-color);
+  --color-card-theme: var(--card-bg);
+  --color-panel-theme: var(--panel-bg);
+  --color-header-theme: var(--header-bg);
+  --color-accent-active: var(--accent-color);
+  --color-accent-glow: var(--accent-glow);
+
+  --color-bg: #080808;
+  --color-ink: #f5f5f0;
+  --color-cream: #f4f4f0;
+  --color-acid: #d4ff3a;
+  --color-burn: #ff4d1a;
+
+  --color-argentina-blue: #75aadb;
+  --color-brasil-yellow: #fded12;
+  --color-brasil-green: #009c3b;
+  --color-portugal-red: #da121a;
+  --color-portugal-green: #00662f;
+  --color-france-blue: #0023a0;
+  --color-france-red: #e70023;
+  --color-panel: rgba(255, 255, 255, 0.04);
+  --color-panel-strong: rgba(255, 255, 255, 0.07);
+  --color-line: rgba(255, 255, 255, 0.08);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-up {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+@keyframes drift2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-40px, 40px) scale(1.15); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-slow-spin {
+  animation: slow-spin 20s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-up {
+  animation: scale-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-color);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-color);
+  background-image: none;
+  color: var(--text-color);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-acid);
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #080808; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #d4ff3a; }
+
+.grainy-overlay {
+  position: relative;
+  isolation: isolate;
+}
+
+.grainy-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    radial-gradient(circle at 12% 18%, var(--blob-1) 0, transparent 24%),
+    radial-gradient(circle at 78% 22%, var(--blob-2) 0, transparent 20%),
+    radial-gradient(circle at 30% 72%, var(--blob-1) 0, transparent 26%),
+    radial-gradient(circle at 86% 78%, var(--blob-2) 0, transparent 22%);
+  background-repeat: no-repeat;
+  background-size: 140% 140%;
+  background-position: center;
+  z-index: -1;
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.24);
+}
+
+.glass-panel-hover:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.03));
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.32);
+}
+
+.section-shell {
+  position: relative;
+  border-bottom: 1px solid var(--border-color);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
