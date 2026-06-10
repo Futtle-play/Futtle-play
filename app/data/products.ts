@@ -63,34 +63,6 @@ const defaultOffers: ProductOffer[] = [
 
 export const products: Product[] = [
   {
-    id: "classic",
-    shopifyHandle: "futtle-classic",
-    title: "Futtle Classic",
-    edition: "Classic Edition",
-    basePrice: 199,
-    currencyCode: "INR",
-    currencySymbol: "₹",
-    offers: defaultOffers,
-    tagline: "Signature Drop 01. Raw performance.",
-    description:
-      "The original Futtle. Pure, lightweight, and balanced for quick inside-outside sequences. Featuring selected black goose feathers and our iconic acid-yellow rubber base.",
-    isAvailable: false,
-    colors: {
-      primary: "#d4ff3a",
-      secondary: "#0b0b0a",
-      accent: "#ff4d1a",
-      glow: "rgba(212, 255, 58, 0.15)",
-      gradient: "from-zinc-900 to-zinc-950 border-acid/20",
-    },
-    kitTheme: "Acid Yellow & Midnight Black",
-    specs: {
-      feathers: "Premium Black Goose Feathers (x4)",
-      weight: "15g (Perfect street balance)",
-      base: "Dual-Density Vulcanized Rubber (Acid Yellow)",
-      aerodynamics: "High-stability spin profile",
-    },
-  },
-  {
     id: "argentina",
     shopifyHandle: "futtle-argentina",
     title: "Futtle Argentina",
@@ -111,6 +83,14 @@ export const products: Product[] = [
       gradient: "from-sky-950/40 to-zinc-950 border-sky-400/20",
     },
     kitTheme: "Sky Blue & Cloud White",
+    gallery: [
+      {
+        src: "/f_a_eyeview.png",
+        alt: "Futtle Argentina eye-level view",
+        width: 2390,
+        height: 1792,
+      },
+    ],
     specs: {
       feathers: "Sky Blue & White Hand-Sorted Feathers (x4)",
       weight: "15.5g (Slightly heavier for stability)",
@@ -217,6 +197,14 @@ export const products: Product[] = [
       gradient: "from-red-950/40 to-zinc-950 border-red-500/20",
     },
     kitTheme: "Crimson Red & Deep Green",
+    gallery: [
+      {
+        src: "/f_p_eyeview.png",
+        alt: "Futtle Portugal eye-level view",
+        width: 2390,
+        height: 1792,
+      },
+    ],
     specs: {
       feathers: "Deep Crimson Hand-Dyed Feathers (x4)",
       weight: "15.3g (For fast reaction play)",
@@ -245,6 +233,14 @@ export const products: Product[] = [
       gradient: "from-blue-950/40 to-zinc-950 border-blue-500/20",
     },
     kitTheme: "Tricolore - Blue, White, & Red",
+    gallery: [
+      {
+        src: "/f_f_eyeview.png",
+        alt: "Futtle France eye-level view",
+        width: 2390,
+        height: 1792,
+      },
+    ],
     specs: {
       feathers: "Royal Blue & Tricolore Feathers (x4)",
       weight: "15.2g (Cushioned impact dynamics)",
