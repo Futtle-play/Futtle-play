@@ -31,11 +31,11 @@ export default function CareLifetime() {
           <div className="flex flex-col items-center space-y-6 text-center lg:col-span-5 lg:items-start lg:text-left">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent-active sm:text-[10px] sm:tracking-[0.2em]">Care</p>
             <h2 className="font-display text-4xl font-bold uppercase leading-[0.9] tracking-[-0.05em] text-text-theme sm:text-5xl lg:text-6xl">
-              Built to play, better if maintained.
+              Treat it like it matters.
             </h2>
 
             <p className="max-w-md text-base leading-7 text-text-theme/50">
-              The feathers are organic and the base takes repeated impact. A little maintenance keeps the flight shape consistent and makes it feel less disposable.
+              The feathers are organic and the base takes repeated impact. A little maintenance keeps the flight shape consistent.
             </p>
 
             {/* Premium, borderless list details */}
@@ -47,10 +47,6 @@ export default function CareLifetime() {
               <div className="flex flex-col gap-2 border-b border-border-theme py-3 sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-text-theme/30">RESTORATION METHOD</span>
                 <span className="text-text-theme">STEAMING</span>
-              </div>
-              <div className="flex flex-col gap-2 pt-3 sm:flex-row sm:items-center sm:justify-between">
-                <span className="text-text-theme/30">REPLACEABLE FEATHERS</span>
-                <span className="text-[#ff4d1a]">YES</span>
               </div>
             </div>
           </div>

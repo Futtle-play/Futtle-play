@@ -43,24 +43,25 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[linear-gradient(90deg,rgba(212,255,58,0.12),rgba(255,77,26,0.04))] px-3.5 py-1.5 animate-fade-in shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
             <span className="h-1.5 w-1.5 rounded-full bg-accent-active animate-pulse" />
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/50 sm:text-[9px] sm:tracking-[0.18em]">
-              Built for clean touches and long runs
+              Foot Juggling · Skill Training · Street Sport
             </span>
           </div>
 
           <h1 className="animate-scale-up font-display text-[clamp(2.8rem,15vw,7.5rem)] font-bold uppercase leading-[0.9] tracking-[-0.06em] text-text-theme sm:text-[clamp(3.4rem,8vw,7.5rem)]">
-            <span className="inline-block text-accent-active drop-shadow-[0_0_24px_rgba(212,255,58,0.2)]">Kick</span>{" "}
-            <span className="inline-block text-[#ff7a1a]">sharp.</span>
+            <span className="inline-block text-accent-active drop-shadow-[0_0_24px_rgba(212,255,58,0.2)]">Train</span>
             <br />
-            <span className="inline-block text-text-theme">Don&apos;t throw.</span>
+            <span className="inline-block text-[#ff7a1a]">your</span>
+            <br />
+            <span className="inline-block text-text-theme">touch</span>
           </h1>
 
           <p className="max-w-xl text-[1rem] leading-7 text-text-theme/70 sm:text-lg animate-fade-in">
-            Futtle turns Jianzi into a sharper object for modern play. Natural feathers, a weighted rubber base, and a shape tuned for control, rhythm, and repeat touches.
+            Futtle is a modern build of Jianzi — a 2,000-year-old foot-juggling game. Weighted rubber base, hand selected goose feathers, calibrated for controlled touch sequences. Your feet&apos;s favorite side quest.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 animate-fade-in">
             <Link
-              href="/shop"
+              href="/#shop"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent-active px-7 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white dark:text-black transition-all duration-300 hover:bg-text-theme hover:text-bg-theme hover:shadow-[0_0_24px_rgba(212,255,58,0.35)]"
             >
               Shop Now
@@ -73,7 +74,7 @@ export default function Hero() {
             </button>
           </div>
 
-          <dl className="grid max-w-2xl grid-cols-1 gap-4 border-t border-border-theme pt-6 sm:grid-cols-3 sm:pt-8">
+          <dl className="grid max-w-2xl grid-cols-1 gap-4 border-t border-border-theme pt-6 sm:grid-cols-2 sm:pt-8">
             <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4 shadow-[0_14px_34px_rgba(0,0,0,0.14)]">
               <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/30 sm:text-[9px] sm:tracking-[0.18em]">Weight</dt>
               <dd className="mt-2 text-sm text-text-theme/80">15g tuned for stable touch</dd>
@@ -81,10 +82,6 @@ export default function Hero() {
             <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4 shadow-[0_14px_34px_rgba(0,0,0,0.14)]">
               <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/30 sm:text-[9px] sm:tracking-[0.18em]">Build</dt>
               <dd className="mt-2 text-sm text-text-theme/80">Goose feathers + rubber base</dd>
-            </div>
-            <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4 shadow-[0_14px_34px_rgba(0,0,0,0.14)]">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/30 sm:text-[9px] sm:tracking-[0.18em]">Made for</dt>
-              <dd className="mt-2 text-sm text-text-theme/80">Street juggling and freestyle reps</dd>
             </div>
           </dl>
         </div>

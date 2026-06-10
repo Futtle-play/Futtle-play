@@ -261,3 +261,15 @@ export function getOfferByKey(product: Product, offerKey: ProductOfferKey): Prod
 export function formatPrice(currencySymbol: string, amount: number): string {
   return `${currencySymbol}${amount}`;
 }
+
+export function getProductsByAvailability(source: Product[] = products): Product[] {
+  return [...source].sort((left, right) => {
+    const availabilityScore = Number(right.isAvailable) - Number(left.isAvailable);
+
+    if (availabilityScore !== 0) {
+      return availabilityScore;
+    }
+
+    return left.title.localeCompare(right.title);
+  });
+}

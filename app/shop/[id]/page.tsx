@@ -3,6 +3,7 @@
 import React, { use, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import Footer from "../../components/Footer";
 import FuttleVisual from "../../components/FuttleVisual";
@@ -47,6 +48,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   }
 
   const { addToCart } = useCart();
+  const router = useRouter();
   const [activeView, setActiveView] = useState(0);
   const [offerKey, setOfferKey] = useState<ProductOfferKey>("single");
   const [favourited, setFavourited] = useState(false);
@@ -86,6 +88,52 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     setRotate({ x: 0, y: 0 });
   };
 
+  const renderPreviewButton = (viewIndex: number, compact = false) => (
+    <button
+      key={viewIndex}
+      onClick={() => setActiveView(viewIndex)}
+      className={`group relative flex aspect-square cursor-pointer items-center justify-center overflow-hidden rounded-xl border bg-bg-theme transition-all duration-300 ${
+        compact ? "min-w-16" : "w-full"
+      } ${
+        activeView === viewIndex
+          ? "border-[var(--prod-accent)] ring-1 ring-[var(--prod-glow)]"
+          : "border-border-theme hover:border-text-theme/40"
+      }`}
+      aria-label={hasGallery ? gallery[viewIndex]?.alt ?? `View ${viewIndex + 1}` : `View ${viewIndex + 1}`}
+    >
+      {hasGallery ? (
+        <Image
+          src={gallery[viewIndex].src}
+          alt={gallery[viewIndex].alt}
+          fill
+          sizes={compact ? "72px" : "92px"}
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        <div
+          className={
+            viewIndex === 1
+              ? "h-full w-full scale-[1.6] translate-y-[-10%]"
+              : viewIndex === 2
+                ? "h-full w-full scale-[1.5] translate-y-[20%]"
+                : "h-[80%] w-[80%]"
+          }
+        >
+          <FuttleVisual
+            id={product.id}
+            primaryColor={product.colors.primary}
+            secondaryColor={product.colors.secondary}
+            accentColor={product.colors.accent}
+            interactive={false}
+          />
+        </div>
+      )}
+      <span className="absolute bottom-1 left-1 rounded-full bg-black/65 px-1 py-0.5 font-mono text-[7px] uppercase tracking-wider text-white/80 backdrop-blur-sm">
+        {String(viewIndex + 1).padStart(2, "0")}
+      </span>
+    </button>
+  );
+
   return (
     <div
       className="grainy-overlay relative flex min-h-screen flex-col overflow-x-hidden bg-transparent font-sans text-text-theme antialiased selection:bg-accent-active selection:text-black"
@@ -105,142 +153,130 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               Home
             </Link>
             <span className="mx-2">/</span>
-            <Link href="/shop" className="transition-colors hover:text-text-theme">
+            <Link href="/#shop" className="transition-colors hover:text-text-theme">
               Shop
             </Link>
             <span className="mx-2">/</span>
             <span className="text-text-theme">{product.title}</span>
           </nav>
 
-          <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12 lg:gap-14">
-            <div className="order-2 flex h-fit flex-row gap-3 overflow-x-auto select-none font-mono lg:sticky lg:top-24 lg:col-span-2 lg:order-1 lg:flex-col lg:overflow-visible">
-              {Array.from({ length: viewCount }, (_, viewIndex) => viewIndex).map((viewIndex) => (
-                <button
-                  key={viewIndex}
-                  onClick={() => setActiveView(viewIndex)}
-                  className={`relative flex aspect-square h-16 w-16 cursor-pointer items-center justify-center rounded-xl border bg-bg-theme p-2 transition-all duration-300 sm:h-20 sm:w-20 ${
-                    activeView === viewIndex
-                      ? "border-accent-active ring-1 ring-accent-active/20"
-                      : "border-border-theme hover:border-text-theme/40"
-                  } ${viewIndex > 0 ? "overflow-hidden" : ""}`}
-                  aria-label={hasGallery ? gallery[viewIndex]?.alt ?? `View ${viewIndex + 1}` : `View ${viewIndex + 1}`}
-                >
-                  {hasGallery ? (
-                    <Image
-                      src={gallery[viewIndex].src}
-                      alt={gallery[viewIndex].alt}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div
-                      className={
-                        viewIndex === 1
-                          ? "h-full w-full scale-[1.6] translate-y-[-10%]"
-                          : viewIndex === 2
-                            ? "h-full w-full scale-[1.5] translate-y-[20%]"
-                            : "h-[80%] w-[80%]"
-                      }
-                    >
-                      <FuttleVisual
-                        id={product.id}
-                        primaryColor={product.colors.primary}
-                        secondaryColor={product.colors.secondary}
-                        accentColor={product.colors.accent}
-                        interactive={false}
-                      />
-                    </div>
-                  )}
-                </button>
-              ))}
-            </div>
+          <div className="mb-6">
+            <button
+              onClick={() => {
+                if (window.history.length > 1) {
+                  router.back();
+                  return;
+                }
 
-            <div className="order-1 flex h-fit flex-col items-center justify-start lg:sticky lg:top-24 lg:col-span-5 lg:order-2">
-              <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border border-border-theme bg-card-theme">
-                <div
-                  ref={containerRef}
-                  onMouseMove={handleMouseMove}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative flex h-full w-full items-center justify-center p-6 transition-all duration-300 ease-out"
-                  style={
-                    hasGallery
-                      ? undefined
-                      : {
-                          transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-                        }
-                  }
-                >
-                  {hasGallery ? (
-                    <Image
-                      src={gallery[activeView].src}
-                      alt={gallery[activeView].alt}
-                      fill
-                      priority
-                      sizes="(min-width: 1024px) 40vw, 100vw"
-                      className="object-contain p-4"
-                    />
-                  ) : (
-                    <>
-                      {activeView === 0 ? (
-                        <FuttleVisual
-                          id={product.id}
-                          primaryColor={product.colors.primary}
-                          secondaryColor={product.colors.secondary}
-                          accentColor={product.colors.accent}
-                          interactive={true}
-                          className="h-[80%] w-[80%] drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-                        />
-                      ) : null}
+                router.push("/#shop");
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-border-theme bg-panel-theme px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/70 transition-colors hover:border-text-theme/40 hover:text-text-theme"
+            >
+              <span aria-hidden="true">←</span>
+              Back
+            </button>
+          </div>
 
-                      {activeView === 1 ? (
-                        <div className="flex h-full w-full translate-y-[-10%] scale-[1.6] items-center justify-center transition-transform duration-300">
-                          <FuttleVisual
-                            id={product.id}
-                            primaryColor={product.colors.primary}
-                            secondaryColor={product.colors.secondary}
-                            accentColor={product.colors.accent}
-                            interactive={true}
-                            className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-                          />
-                        </div>
-                      ) : null}
-
-                      {activeView === 2 ? (
-                        <div className="flex h-full w-full translate-y-[20%] scale-[1.5] items-center justify-center transition-transform duration-300">
-                          <FuttleVisual
-                            id={product.id}
-                            primaryColor={product.colors.primary}
-                            secondaryColor={product.colors.secondary}
-                            accentColor={product.colors.accent}
-                            interactive={true}
-                            className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-                          />
-                        </div>
-                      ) : null}
-                    </>
-                  )}
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+            <div className="order-1 flex h-fit flex-col items-center justify-start gap-3 lg:sticky lg:top-24 lg:col-span-7">
+              <div className="grid w-full grid-cols-1 gap-3 lg:grid-cols-[5rem_1fr]">
+                <div className="hidden max-h-[calc(100dvh-8rem)] overflow-y-auto pr-1 select-none lg:flex lg:flex-col lg:gap-2">
+                  {Array.from({ length: viewCount }, (_, viewIndex) => renderPreviewButton(viewIndex))}
                 </div>
 
-                <button
-                  onClick={prevView}
-                  className="absolute left-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-header-theme text-text-theme/70 transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)]"
-                  aria-label="Previous view"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                  </svg>
-                </button>
+                <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-2xl border border-border-theme bg-card-theme">
+                  <div
+                    ref={containerRef}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                    className="relative flex h-full w-full items-center justify-center p-6 transition-all duration-300 ease-out"
+                    style={
+                      hasGallery
+                        ? undefined
+                        : {
+                            transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+                          }
+                    }
+                  >
+                    {hasGallery ? (
+                      <Image
+                        src={gallery[activeView].src}
+                        alt={gallery[activeView].alt}
+                        fill
+                        priority
+                        sizes="(min-width: 1024px) 40vw, 100vw"
+                        className="object-contain p-4"
+                      />
+                    ) : (
+                      <>
+                        {activeView === 0 ? (
+                          <FuttleVisual
+                            id={product.id}
+                            primaryColor={product.colors.primary}
+                            secondaryColor={product.colors.secondary}
+                            accentColor={product.colors.accent}
+                            interactive={true}
+                            className="h-[80%] w-[80%] drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                          />
+                        ) : null}
 
-                <button
-                  onClick={nextView}
-                  className="absolute right-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-header-theme text-text-theme/70 transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)]"
-                  aria-label="Next view"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
+                        {activeView === 1 ? (
+                          <div className="flex h-full w-full translate-y-[-10%] scale-[1.6] items-center justify-center transition-transform duration-300">
+                            <FuttleVisual
+                              id={product.id}
+                              primaryColor={product.colors.primary}
+                              secondaryColor={product.colors.secondary}
+                              accentColor={product.colors.accent}
+                              interactive={true}
+                              className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                            />
+                          </div>
+                        ) : null}
+
+                        {activeView === 2 ? (
+                          <div className="flex h-full w-full translate-y-[20%] scale-[1.5] items-center justify-center transition-transform duration-300">
+                            <FuttleVisual
+                              id={product.id}
+                              primaryColor={product.colors.primary}
+                              secondaryColor={product.colors.secondary}
+                              accentColor={product.colors.accent}
+                              interactive={true}
+                              className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                            />
+                          </div>
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+
+                  <div className="absolute left-4 top-4 z-10 rounded-full border border-border-theme bg-header-theme px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-text-theme/55 backdrop-blur-md">
+                    View {String(activeView + 1).padStart(2, "0")} / {String(viewCount).padStart(2, "0")}
+                  </div>
+
+                  <button
+                    onClick={prevView}
+                    className="absolute left-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-header-theme text-text-theme/70 transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)]"
+                    aria-label="Previous view"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                  </button>
+
+                  <button
+                    onClick={nextView}
+                    className="absolute right-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-header-theme text-text-theme/70 transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)]"
+                    aria-label="Next view"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex w-full gap-2 overflow-x-auto rounded-2xl border border-border-theme bg-panel-theme p-2 select-none lg:hidden">
+                {Array.from({ length: viewCount }, (_, viewIndex) => renderPreviewButton(viewIndex, true))}
               </div>
             </div>
 
@@ -265,39 +301,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <span className="font-mono text-[9px] uppercase tracking-wider text-text-theme/40">
                     {selectedOffer.label}
                   </span>
-                </div>
-              </div>
-
-              <div className="border-t border-border-theme pt-4">
-                <h3 className="mb-3 font-mono text-[9px] uppercase tracking-wider text-text-theme/40">Other Editions</h3>
-                <div className="flex flex-wrap gap-2.5">
-                  {products.map((entry) => (
-                    <Link
-                      key={entry.id}
-                      href={`/shop/${entry.id}`}
-                      className={`relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border transition-all duration-300 hover:scale-105 ${
-                        entry.id === product.id
-                          ? "border-[var(--swatch-accent)] ring-2 ring-[var(--swatch-glow)]"
-                          : "border-border-theme hover:border-text-theme/40"
-                      }`}
-                      style={{
-                        "--swatch-accent": `var(--accent-${entry.id})`,
-                        "--swatch-glow": `var(--glow-button-${entry.id})`,
-                      } as React.CSSProperties}
-                      title={entry.title}
-                    >
-                      <div className="absolute inset-0 flex scale-90 items-center justify-center bg-bg-theme">
-                        <FuttleVisual
-                          id={entry.id}
-                          primaryColor={entry.colors.primary}
-                          secondaryColor={entry.colors.secondary}
-                          accentColor={entry.colors.accent}
-                          interactive={false}
-                          className="h-[80%] w-[80%]"
-                        />
-                      </div>
-                    </Link>
-                  ))}
                 </div>
               </div>
 
