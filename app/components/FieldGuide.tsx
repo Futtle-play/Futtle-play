@@ -4,10 +4,10 @@ import React from "react";
 
 export default function FieldGuide() {
   const steps = [
-    { num: "01", title: "THE DROP", desc: "Hold the Futtle at chest height and let it fall straight down. Keep your eyes on the base, not the feathers.", accent: "burn" },
-    { num: "02", title: "INSIDE TOUCH", desc: "Lift your knee, turn the ankle out, and meet the base with the flat inside of your shoe.", accent: "acid" },
-    { num: "03", title: "CUSHION POP", desc: "Guide it back up instead of kicking through it. Control comes from a soft touch, not force.", accent: "acid" },
-    { num: "04", title: "RHYTHM SPIN", desc: "Reset your balance, let it descend, and repeat. Stay relaxed so you are not chasing every bounce.", accent: "burn" },
+    { num: "01", title: "THE DROP", desc: "Hold the Futtle at chest height and let it fall straight down. Track the base, not the feathers.", accent: "burn" },
+    { num: "02", title: "INSIDE TOUCH", desc: "Lift the knee, turn the ankle out, and meet the base with the flat inside of your shoe.", accent: "acid" },
+    { num: "03", title: "CUSHION POP", desc: "Guide it back up instead of kicking through it. The clean touch matters more than force.", accent: "acid" },
+    { num: "04", title: "RHYTHM SPIN", desc: "Reset your balance, let it descend, and repeat. Stay relaxed so the run stays fluid.", accent: "burn" },
   ];
 
   const ladder = [
@@ -37,7 +37,7 @@ export default function FieldGuide() {
             Learn the first clean sequence.
           </h2>
           <p className="max-w-2xl text-base leading-7 text-text-theme/60">
-            Keep it in the air with anything except your hands. These steps get a new player from random swings to controlled inside-foot touches.
+            Keep it in the air with anything except your hands. These steps move a new player from random swings to controlled inside-foot touches.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ export default function FieldGuide() {
                 Progress ladder
               </h3>
               <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-accent-active sm:text-[9px] sm:tracking-[0.15em]">
-                How many touches can you string together?
+                How many clean touches can you string together?
               </p>
             </div>
 
@@ -149,7 +149,7 @@ export default function FieldGuide() {
                 Touch challenges
               </h3>
               <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#ff4d1a] sm:text-[9px] sm:tracking-[0.15em]">
-                Build control before you chase tricks
+                Build control before you chase tricks.
               </p>
             </div>
 

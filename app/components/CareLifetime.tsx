@@ -35,14 +35,14 @@ export default function CareLifetime() {
             </h2>
 
             <p className="max-w-md text-base leading-7 text-text-theme/50">
-              The feathers are organic and the base takes repeated impact. A little maintenance keeps the flight shape consistent and makes the product feel less disposable.
+              The feathers are organic and the base takes repeated impact. A little maintenance keeps the flight shape consistent and makes it feel less disposable.
             </p>
 
             {/* Premium, borderless list details */}
             <div className="w-full space-y-3 border-t border-border-theme pt-4 font-mono text-[10px] uppercase tracking-[0.12em] sm:text-[9px] sm:tracking-wider">
               <div className="flex flex-col gap-2 border-b border-border-theme pb-3 sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-text-theme/30">EXPECTED LIFETIME</span>
-                <span className="text-accent-active">3-6 MONTHS / SPEC</span>
+                <span className="text-accent-active">3-6 MONTHS / USE</span>
               </div>
               <div className="flex flex-col gap-2 border-b border-border-theme py-3 sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-text-theme/30">RESTORATION METHOD</span>

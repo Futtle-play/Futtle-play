@@ -2,11 +2,43 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "../components/Footer";
 import FuttleVisual from "../components/FuttleVisual";
 import Navbar from "../components/Navbar";
 import { formatPrice, getOfferByKey, getOfferPrice, Product, products } from "../data/products";
 import { useCart } from "../context/CartContext";
+
+function ProductArtwork({ product, interactive }: { product: Product; interactive: boolean }) {
+  const firstImage = product.gallery?.[0];
+
+  if (firstImage) {
+    return (
+      <div className="relative h-full w-full">
+        <Image
+          src={firstImage.src}
+          alt={firstImage.alt}
+          fill
+          sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 100vw"
+          className={`object-contain transition-transform duration-500 ${
+            interactive ? "p-4 group-hover:scale-[1.02]" : "p-2 scale-[1.12]"
+          }`}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <FuttleVisual
+      id={product.id}
+      primaryColor={product.colors.primary}
+      secondaryColor={product.colors.secondary}
+      accentColor={product.colors.accent}
+      interactive={interactive}
+      className="h-[75%] w-[75%] drop-shadow-[0_12px_24px_rgba(0,0,0,0.4)]"
+    />
+  );
+}
 
 function ProductCard({ product, onPreview }: { product: Product; onPreview: (product: Product) => void }) {
   const primaryOffer = getOfferByKey(product, "single");
@@ -34,16 +66,13 @@ function ProductCard({ product, onPreview }: { product: Product; onPreview: (pro
         </button>
 
         <Link href={`/shop/${product.id}`} className="block">
-          <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-border-theme bg-bg-theme">
-            <div className="flex h-full w-full items-center justify-center p-4">
-              <FuttleVisual
-                id={product.id}
-                primaryColor={product.colors.primary}
-                secondaryColor={product.colors.secondary}
-                accentColor={product.colors.accent}
-                interactive={false}
-                className="h-[75%] w-[75%] drop-shadow-[0_12px_24px_rgba(0,0,0,0.4)]"
-              />
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border-theme bg-bg-theme">
+            <div className="flex h-full w-full items-center justify-center p-2">
+              <ProductArtwork product={product} interactive={false} />
+            </div>
+            {!product.isAvailable ? <div className="absolute inset-0 bg-black/35" /> : null}
+            <div className="absolute left-3 top-3 rounded-full border border-border-theme bg-black/70 px-2.5 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/80 backdrop-blur-sm">
+              {product.isAvailable ? "Available" : "Sold out"}
             </div>
           </div>
         </Link>
@@ -58,9 +87,15 @@ function ProductCard({ product, onPreview }: { product: Product; onPreview: (pro
                 {product.edition}
               </p>
             </div>
-            <p className="font-display text-sm font-bold" style={{ color: `var(--accent-${product.id})` }}>
-              {formatPrice(product.currencySymbol, getOfferPrice(product, primaryOffer))}
-            </p>
+            {product.isAvailable ? (
+              <p className="font-display text-sm font-bold" style={{ color: `var(--accent-${product.id})` }}>
+                {formatPrice(product.currencySymbol, getOfferPrice(product, primaryOffer))}
+              </p>
+            ) : (
+              <p className="rounded-full border border-white/10 bg-white/5 px-2 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/50">
+                Sold out
+              </p>
+            )}
           </div>
         </Link>
       </div>
@@ -70,6 +105,7 @@ function ProductCard({ product, onPreview }: { product: Product; onPreview: (pro
 
 function PreviewModal({ product, onClose }: { product: Product; onClose: () => void }) {
   const { addToCart } = useCart();
+  const previewDisabled = !product.isAvailable;
 
   return (
     <div
@@ -94,14 +130,8 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
           <div className="flex items-center justify-center">
             <div className="relative flex aspect-square w-full max-w-[20rem] items-center justify-center sm:max-w-[24rem]">
-              <FuttleVisual
-                id={product.id}
-                primaryColor={product.colors.primary}
-                secondaryColor={product.colors.secondary}
-                accentColor={product.colors.accent}
-                interactive={true}
-                className="relative h-[95%] w-[95%] drop-shadow-[0_24px_56px_rgba(0,0,0,0.65)]"
-              />
+              <ProductArtwork product={product} interactive={true} />
+              {previewDisabled ? <div className="absolute inset-0 rounded-[2rem] bg-black/20" /> : null}
             </div>
           </div>
 
@@ -119,6 +149,11 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
               <p className="mt-2 text-xs font-mono uppercase tracking-wider" style={{ color: `var(--accent-${product.id})` }}>
                 {product.kitTheme}
               </p>
+              {!product.isAvailable ? (
+                <p className="mt-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/60">
+                  Sold out for now
+                </p>
+              ) : null}
             </div>
 
             <p className="text-xs leading-relaxed text-text-theme/70 sm:text-sm">{product.description}</p>
@@ -133,13 +168,18 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
                     </p>
                   </div>
                   <button
+                    disabled={previewDisabled}
                     onClick={() => {
+                      if (previewDisabled) {
+                        return;
+                      }
+
                       addToCart(product, offer.key);
                       onClose();
                     }}
-                    className="rounded-full bg-text-theme px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] hover:shadow-[0_0_20px_var(--prod-glow-button)] cursor-pointer"
+                    className="cursor-pointer rounded-full bg-text-theme px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] hover:shadow-[0_0_20px_var(--prod-glow-button)] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-text-theme/30 disabled:hover:bg-white/10 disabled:hover:text-text-theme/30 disabled:hover:shadow-none"
                   >
-                    Add
+                    {previewDisabled ? "Sold out" : "Add"}
                   </button>
                 </div>
               ))}
@@ -183,7 +223,6 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
 
 export default function Shop() {
   const [previewProduct, setPreviewProduct] = useState<Product | null>(null);
-  const singlePrice = getOfferPrice(products[0], getOfferByKey(products[0], "single"));
 
   return (
     <div className="grainy-overlay relative flex min-h-screen flex-col overflow-x-hidden bg-transparent font-sans text-text-theme antialiased selection:bg-accent-active selection:text-black">
@@ -195,19 +234,12 @@ export default function Shop() {
             <div>
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent-active">Catalogue</p>
               <h1 className="mt-1 font-display text-2xl font-bold uppercase leading-none tracking-tight text-text-theme sm:text-3xl">
-                Select your kit.
+                Choose your edition.
               </h1>
             </div>
-            <p className="max-w-md text-[11px] leading-relaxed text-text-theme/50 md:text-right">
-              Every edition runs on the same base build and single source pricing. Local pricing stays aligned here until Shopify takes over live inventory and checkout.
-            </p>
           </div>
 
-          <div className="mb-8 rounded-[1.75rem] border border-border-theme bg-panel-theme px-5 py-4 text-[11px] leading-relaxed text-text-theme/60">
-            Single kit pricing starts at {formatPrice(products[0].currencySymbol, singlePrice)}. Multi-pack pricing is derived from the same source and resolves to live Shopify variants once storefront credentials are added.
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} onPreview={setPreviewProduct} />
             ))}

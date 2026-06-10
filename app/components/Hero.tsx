@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import FuttleVisual from "./FuttleVisual";
+import Image from "next/image";
 
 export default function Hero() {
   const visualContainerRef = useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[linear-gradient(90deg,rgba(212,255,58,0.12),rgba(255,77,26,0.04))] px-3.5 py-1.5 animate-fade-in shadow-[0_10px_24px_rgba(0,0,0,0.12)]">
             <span className="h-1.5 w-1.5 rounded-full bg-accent-active animate-pulse" />
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/50 sm:text-[9px] sm:tracking-[0.18em]">
-              Hand-assembled in India
+              Built for clean touches and long runs
             </span>
           </div>
 
@@ -55,7 +55,7 @@ export default function Hero() {
           </h1>
 
           <p className="max-w-xl text-[1rem] leading-7 text-text-theme/70 sm:text-lg animate-fade-in">
-            Futtle takes the rhythm of Jianzi and gives it a cleaner, tougher street-ready build. Natural goose feathers, a weighted rubber base, and a shape tuned for control instead of novelty.
+            Futtle turns Jianzi into a sharper object for modern play. Natural feathers, a weighted rubber base, and a shape tuned for control, rhythm, and repeat touches.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 animate-fade-in">
@@ -69,7 +69,7 @@ export default function Hero() {
               onClick={() => scrollToSection("guide")}
               className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/12 bg-[rgba(255,255,255,0.03)] px-7 py-3 text-xs font-medium uppercase tracking-[0.16em] text-text-theme/80 transition-colors duration-300 hover:bg-text-theme hover:text-bg-theme cursor-pointer"
             >
-              Learn the game
+              Read the sequence
             </button>
           </div>
 
@@ -101,13 +101,13 @@ export default function Hero() {
           >
             <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_50%_24%,rgba(212,255,58,0.12),transparent_34%),radial-gradient(circle_at_50%_85%,rgba(255,77,26,0.12),transparent_28%)]" />
 
-            <FuttleVisual
-              id="classic"
-              primaryColor="#d4ff3a"
-              secondaryColor="#080808"
-              accentColor="#ff4d1a"
-              interactive={true}
-              className="relative h-[95%] w-[95%] drop-shadow-[0_32px_64px_rgba(0,0,0,0.7)]"
+            <Image
+              src="/f_b_nobg.png"
+              alt="Futtle Brasil"
+              fill
+              priority
+              sizes="(min-width: 1024px) 26rem, (min-width: 640px) 22rem, 18rem"
+              className="object-contain p-4 drop-shadow-[0_32px_64px_rgba(0,0,0,0.7)]"
             />
           </div>
         </div>

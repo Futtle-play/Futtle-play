@@ -2,6 +2,7 @@
 
 import React, { use, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Footer from "../../components/Footer";
 import FuttleVisual from "../../components/FuttleVisual";
@@ -51,15 +52,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [favourited, setFavourited] = useState(false);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const gallery = product.gallery ?? [];
+  const hasGallery = gallery.length > 0;
+  const viewCount = hasGallery ? gallery.length : 3;
   const selectedOffer = getOfferByKey(product, offerKey);
   const selectedPrice = getOfferPrice(product, selectedOffer);
 
   const nextView = () => {
-    setActiveView((prev) => (prev + 1) % 3);
+    setActiveView((prev) => (prev + 1) % viewCount);
   };
 
   const prevView = () => {
-    setActiveView((prev) => (prev - 1 + 3) % 3);
+    setActiveView((prev) => (prev - 1 + viewCount) % viewCount);
   };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -110,7 +114,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
           <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12 lg:gap-14">
             <div className="order-2 flex h-fit flex-row gap-3 overflow-x-auto select-none font-mono lg:sticky lg:top-24 lg:col-span-2 lg:order-1 lg:flex-col lg:overflow-visible">
-              {[0, 1, 2].map((viewIndex) => (
+              {Array.from({ length: viewCount }, (_, viewIndex) => viewIndex).map((viewIndex) => (
                 <button
                   key={viewIndex}
                   onClick={() => setActiveView(viewIndex)}
@@ -119,25 +123,35 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                       ? "border-accent-active ring-1 ring-accent-active/20"
                       : "border-border-theme hover:border-text-theme/40"
                   } ${viewIndex > 0 ? "overflow-hidden" : ""}`}
-                  aria-label={`View ${viewIndex + 1}`}
+                  aria-label={hasGallery ? gallery[viewIndex]?.alt ?? `View ${viewIndex + 1}` : `View ${viewIndex + 1}`}
                 >
-                  <div
-                    className={
-                      viewIndex === 1
-                        ? "h-full w-full scale-[1.6] translate-y-[-10%]"
-                        : viewIndex === 2
-                          ? "h-full w-full scale-[1.5] translate-y-[20%]"
-                          : "h-[80%] w-[80%]"
-                    }
-                  >
-                    <FuttleVisual
-                      id={product.id}
-                      primaryColor={product.colors.primary}
-                      secondaryColor={product.colors.secondary}
-                      accentColor={product.colors.accent}
-                      interactive={false}
+                  {hasGallery ? (
+                    <Image
+                      src={gallery[viewIndex].src}
+                      alt={gallery[viewIndex].alt}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
                     />
-                  </div>
+                  ) : (
+                    <div
+                      className={
+                        viewIndex === 1
+                          ? "h-full w-full scale-[1.6] translate-y-[-10%]"
+                          : viewIndex === 2
+                            ? "h-full w-full scale-[1.5] translate-y-[20%]"
+                            : "h-[80%] w-[80%]"
+                      }
+                    >
+                      <FuttleVisual
+                        id={product.id}
+                        primaryColor={product.colors.primary}
+                        secondaryColor={product.colors.secondary}
+                        accentColor={product.colors.accent}
+                        interactive={false}
+                      />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
@@ -149,46 +163,63 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                   className="relative flex h-full w-full items-center justify-center p-6 transition-all duration-300 ease-out"
-                  style={{
-                    transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-                  }}
+                  style={
+                    hasGallery
+                      ? undefined
+                      : {
+                          transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+                        }
+                  }
                 >
-                  {activeView === 0 ? (
-                    <FuttleVisual
-                      id={product.id}
-                      primaryColor={product.colors.primary}
-                      secondaryColor={product.colors.secondary}
-                      accentColor={product.colors.accent}
-                      interactive={true}
-                      className="h-[80%] w-[80%] drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                  {hasGallery ? (
+                    <Image
+                      src={gallery[activeView].src}
+                      alt={gallery[activeView].alt}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 40vw, 100vw"
+                      className="object-contain p-4"
                     />
-                  ) : null}
+                  ) : (
+                    <>
+                      {activeView === 0 ? (
+                        <FuttleVisual
+                          id={product.id}
+                          primaryColor={product.colors.primary}
+                          secondaryColor={product.colors.secondary}
+                          accentColor={product.colors.accent}
+                          interactive={true}
+                          className="h-[80%] w-[80%] drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                        />
+                      ) : null}
 
-                  {activeView === 1 ? (
-                    <div className="flex h-full w-full translate-y-[-10%] scale-[1.6] items-center justify-center transition-transform duration-300">
-                      <FuttleVisual
-                        id={product.id}
-                        primaryColor={product.colors.primary}
-                        secondaryColor={product.colors.secondary}
-                        accentColor={product.colors.accent}
-                        interactive={true}
-                        className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-                      />
-                    </div>
-                  ) : null}
+                      {activeView === 1 ? (
+                        <div className="flex h-full w-full translate-y-[-10%] scale-[1.6] items-center justify-center transition-transform duration-300">
+                          <FuttleVisual
+                            id={product.id}
+                            primaryColor={product.colors.primary}
+                            secondaryColor={product.colors.secondary}
+                            accentColor={product.colors.accent}
+                            interactive={true}
+                            className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                          />
+                        </div>
+                      ) : null}
 
-                  {activeView === 2 ? (
-                    <div className="flex h-full w-full translate-y-[20%] scale-[1.5] items-center justify-center transition-transform duration-300">
-                      <FuttleVisual
-                        id={product.id}
-                        primaryColor={product.colors.primary}
-                        secondaryColor={product.colors.secondary}
-                        accentColor={product.colors.accent}
-                        interactive={true}
-                        className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-                      />
-                    </div>
-                  ) : null}
+                      {activeView === 2 ? (
+                        <div className="flex h-full w-full translate-y-[20%] scale-[1.5] items-center justify-center transition-transform duration-300">
+                          <FuttleVisual
+                            id={product.id}
+                            primaryColor={product.colors.primary}
+                            secondaryColor={product.colors.secondary}
+                            accentColor={product.colors.accent}
+                            interactive={true}
+                            className="h-full w-full drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                          />
+                        </div>
+                      ) : null}
+                    </>
+                  )}
                 </div>
 
                 <button
@@ -272,9 +303,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
               <div className="border-t border-border-theme pt-4">
                 <div className="mb-3 flex items-baseline justify-between">
-                  <h3 className="font-mono text-[9px] uppercase tracking-wider text-text-theme/40">Select configuration</h3>
+                  <h3 className="font-mono text-[9px] uppercase tracking-wider text-text-theme/40">Available formats</h3>
                   <span className="font-mono text-[8px] uppercase tracking-widest text-text-theme/30">
-                    Synced from one local source
+                    Brazil live, others sold out
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-3 font-mono">
@@ -300,9 +331,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <div className="space-y-2.5 border-t border-border-theme pt-4">
                 <button
                   onClick={() => addToCart(product, selectedOffer.key)}
-                  className="w-full cursor-pointer rounded-full bg-text-theme py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] hover:shadow-[0_0_20px_var(--prod-glow-button)]"
+                  disabled={!product.isAvailable}
+                  className="w-full cursor-pointer rounded-full bg-text-theme py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] hover:shadow-[0_0_20px_var(--prod-glow-button)] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-text-theme/30 disabled:hover:bg-white/10 disabled:hover:text-text-theme/30 disabled:hover:shadow-none"
                 >
-                  Add {selectedOffer.shortLabel} to Bag
+                  {product.isAvailable ? `Add ${selectedOffer.shortLabel} to Bag` : "Sold out"}
                 </button>
 
                 <button
@@ -328,6 +360,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
 
               <p className="text-xs leading-relaxed text-text-theme/70 sm:text-sm">{product.description}</p>
+              {!product.isAvailable ? (
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-text-theme/55">
+                  This edition is sold out for now.
+                </div>
+              ) : null}
 
               <div className="space-y-1 border-t border-border-theme pt-4">
                 <div className="border-b border-border-theme pb-3">
@@ -341,7 +378,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </div>
 
                 <Accordion title="Shipping & Delivery">
-                  <p>Live shipping rates and the final delivery address flow are handed off to Shopify checkout after the cart is created.</p>
+                  <p>Shipping and delivery details are confirmed in checkout. The storefront will hand off to Shopify once the cart is ready.</p>
                 </Accordion>
 
                 <Accordion title="Care & Maintenance">
@@ -349,7 +386,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </Accordion>
 
                 <Accordion title="Returns & Replacement">
-                  <p>Returns, replacements, and order policy text should be finalized in Shopify once the merchant account and launch rules are confirmed.</p>
+                  <p>Returns and replacements follow the live store policy once checkout is active. The final terms will sit alongside the launch rules in Shopify.</p>
                 </Accordion>
               </div>
             </div>

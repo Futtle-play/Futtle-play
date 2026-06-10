@@ -73,7 +73,7 @@ export default function CartDrawer() {
                   </svg>
                   <h3 className="mb-1 font-display text-lg font-bold uppercase text-white">Cart is empty</h3>
                   <p className="max-w-[220px] text-xs leading-relaxed text-[#f5f1e8]/50">
-                    Pick your Futtle edition from the shop and the cart will stay ready here.
+                    Pick a Futtle edition from the shop and the cart will stay ready here.
                   </p>
                 </div>
               ) : (
@@ -164,11 +164,11 @@ export default function CartDrawer() {
                   <div className="flex justify-between text-xs">
                     <span className="text-[#f5f1e8]/60">Shipping</span>
                     <span className="font-mono font-bold uppercase tracking-wider text-[#d4ff3a]">
-                      Calculated in Shopify
+                      Calculated at checkout
                     </span>
                   </div>
                   <p className="text-[10px] leading-relaxed text-[#f5f1e8]/40">
-                    Taxes, shipping, and payment are handled on the Shopify checkout once credentials are connected.
+                    Taxes, shipping, and payment are handled in checkout once the storefront is connected.
                   </p>
                   {checkoutError ? (
                     <p className="rounded-2xl border border-[#ff4d1a]/30 bg-[#ff4d1a]/8 px-3 py-2 text-[11px] leading-relaxed text-[#ffd1c4]">
@@ -183,7 +183,7 @@ export default function CartDrawer() {
                     disabled={isCheckingOut}
                     className="w-full cursor-pointer rounded-full bg-[#ff4d1a] py-4 text-sm font-bold uppercase tracking-wide text-white shadow-[0_4px_20px_rgba(255,77,26,0.25)] transition-all duration-300 hover:bg-[#ff4d1a]/90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isCheckingOut ? "Connecting to Shopify..." : "Secure Checkout"}
+                    {isCheckingOut ? "Connecting to checkout..." : "Secure Checkout"}
                   </button>
                 </div>
               </div>

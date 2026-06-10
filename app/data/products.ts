@@ -8,6 +8,13 @@ export interface ProductOffer {
   shopifyVariantTitle: string;
 }
 
+export interface ProductImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface Product {
   id: string;
   shopifyHandle: string;
@@ -19,6 +26,7 @@ export interface Product {
   offers: ProductOffer[];
   tagline: string;
   description: string;
+  isAvailable: boolean;
   colors: {
     primary: string;
     secondary: string;
@@ -27,6 +35,7 @@ export interface Product {
     gradient: string;
   };
   kitTheme: string;
+  gallery?: ProductImage[];
   specs: {
     feathers: string;
     weight: string;
@@ -65,6 +74,7 @@ export const products: Product[] = [
     tagline: "Signature Drop 01. Raw performance.",
     description:
       "The original Futtle. Pure, lightweight, and balanced for quick inside-outside sequences. Featuring selected black goose feathers and our iconic acid-yellow rubber base.",
+    isAvailable: false,
     colors: {
       primary: "#d4ff3a",
       secondary: "#0b0b0a",
@@ -92,6 +102,7 @@ export const products: Product[] = [
     tagline: "La Albiceleste. Smooth touch.",
     description:
       "Honoring the masters of the beautiful game. Weighted with a sky blue and white rubber base and crowned with matching dual-tone feathers. Optimized for chest stalls and overhead flicks.",
+    isAvailable: false,
     colors: {
       primary: "#75aadb",
       secondary: "#ffffff",
@@ -119,6 +130,7 @@ export const products: Product[] = [
     tagline: "A Seleção. Pure freestyle energy.",
     description:
       "Built for samba-style juggle runs. Bright canary-yellow feathers on a deep forest-green base. Highly responsive bounce rate, designed to pop up easily with minimal foot effort.",
+    isAvailable: true,
     colors: {
       primary: "#fded12",
       secondary: "#009c3b",
@@ -127,6 +139,56 @@ export const products: Product[] = [
       gradient: "from-green-950/40 to-zinc-950 border-green-500/20",
     },
     kitTheme: "Canary Yellow & Forest Green",
+    gallery: [
+      {
+        src: "/f_b_eyeview.jpeg",
+        alt: "Futtle Brasil eye-level view",
+        width: 1280,
+        height: 960,
+      },
+      {
+        src: "/f_b_topview.jpeg",
+        alt: "Futtle Brasil top view",
+        width: 4160,
+        height: 3120,
+      },
+      {
+        src: "/f_b_closeup.jpeg",
+        alt: "Futtle Brasil close-up",
+        width: 1600,
+        height: 1200,
+      },
+      {
+        src: "/f_b_scloseup.jpeg",
+        alt: "Futtle Brasil side close-up",
+        width: 1600,
+        height: 1200,
+      },
+      {
+        src: "/f_b_feathers.jpeg",
+        alt: "Futtle Brasil feather detail",
+        width: 1600,
+        height: 1200,
+      },
+      {
+        src: "/f_b_sleeping.jpeg",
+        alt: "Futtle Brasil resting on a shoe",
+        width: 1600,
+        height: 1200,
+      },
+      {
+        src: "/f_b_bottomsup.jpeg",
+        alt: "Futtle Brasil bottom-up view",
+        width: 1600,
+        height: 1200,
+      },
+      {
+        src: "/f_b_sizeref.jpeg",
+        alt: "Futtle Brasil size reference",
+        width: 1600,
+        height: 1200,
+      },
+    ],
     specs: {
       feathers: "Canary Yellow Selected Feathers (x4)",
       weight: "15g (Spring-loaded pop)",
@@ -146,6 +208,7 @@ export const products: Product[] = [
     tagline: "As Quinas. Precision and speed.",
     description:
       "For the clinical player. Featuring deep crimson feathers anchored by a forest-green base. The slightly stiffer feather alignment ensures a tighter spin and faster drop rate.",
+    isAvailable: false,
     colors: {
       primary: "#da121a",
       secondary: "#00662f",
@@ -173,6 +236,7 @@ export const products: Product[] = [
     tagline: "Les Bleus. Elegance in motion.",
     description:
       "Royal blue base with alternating red, white, and blue feathers. Represents tactical elegance. Soft rubber landing rings allow for clean, cushioned foot receptions and soft knee contacts.",
+    isAvailable: false,
     colors: {
       primary: "#0023a0",
       secondary: "#ffffff",

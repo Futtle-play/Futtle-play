@@ -44,9 +44,9 @@ export default function Footer() {
           <div>
             <h4 className="mb-5 font-mono text-[11px] uppercase tracking-[0.16em] text-text-theme sm:text-[10px] sm:tracking-[0.2em]">Contact</h4>
             <ul className="space-y-3 font-mono text-[12px] uppercase tracking-[0.14em] text-text-theme/30 sm:text-[10px] sm:tracking-[0.16em]">
-              <li>futtle</li>
-              <li>futtle</li>
-              <li>futtle</li>
+              <li>Brazil drop</li>
+              <li>Restock list</li>
+              <li>Launch notes</li>
             </ul>
           </div>
         </div>
