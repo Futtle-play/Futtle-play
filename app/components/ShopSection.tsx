@@ -243,7 +243,7 @@ export default function ShopSection() {
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent-active">Catalogue</p>
             <h2 className="mt-1 font-display text-2xl font-bold uppercase leading-none tracking-tight text-text-theme sm:text-3xl">
-              Choose your edition.
+              Shop Now.
             </h2>
           </div>
         </div>

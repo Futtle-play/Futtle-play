@@ -52,7 +52,7 @@ export default function Hero() {
             <br />
             <span className="inline-block text-[#ff7a1a]">your</span>
             <br />
-            <span className="inline-block text-text-theme">touch</span>
+            <span className="inline-block text-text-theme">first touch</span>
           </h1>
 
           <p className="max-w-xl text-[1rem] leading-7 text-text-theme/70 sm:text-lg animate-fade-in">

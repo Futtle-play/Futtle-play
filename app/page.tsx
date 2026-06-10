@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ShopSection from "./components/ShopSection";
+import CommunityPosters from "./components/CommunityPosters";
 import Story from "./components/Story";
 import FieldGuide from "./components/FieldGuide";
 import CareLifetime from "./components/CareLifetime";
@@ -15,8 +16,9 @@ export default function Home() {
       <main className="flex-1 relative z-10">
         <Hero />
         <ShopSection />
-        <Story />
+        <CommunityPosters />
         <FieldGuide />
+        <Story />
         <CareLifetime />
       </main>
 
