@@ -103,7 +103,7 @@ export default function Hero() {
 
             <Image
               src="/f_b_nobg.png"
-              alt="Futtle Brasil"
+              alt="Futtle Brazil"
               fill
               priority
               sizes="(min-width: 1024px) 26rem, (min-width: 640px) 22rem, 18rem"

@@ -111,16 +111,43 @@ async function fetchProductsByHandle(handles: string[]): Promise<Map<string, Sho
   return new Map(productEntries);
 }
 
+function getHandleCandidates(handle: string): string[] {
+  const candidates = [handle];
+
+  if (handle.includes("brasil")) {
+    candidates.push(handle.replaceAll("brasil", "brazil"));
+  }
+
+  if (handle.includes("brazil")) {
+    candidates.push(handle.replaceAll("brazil", "brasil"));
+  }
+
+  return [...new Set(candidates)];
+}
+
+function resolveVariant(product: ShopifyProductNode | undefined, variantTitle: string): ShopifyVariantNode | undefined {
+  const variants = product?.variants.edges.map(({ node }) => node) ?? [];
+
+  return (
+    variants.find((variant) => variant.title === variantTitle && variant.availableForSale) ??
+    variants.find((variant) => variant.availableForSale) ??
+    variants[0]
+  );
+}
+
 export async function getShopifyCheckoutUrl(
   lines: ShopifyCheckoutLineInput[],
 ): Promise<string | null> {
-  const productsByHandle = await fetchProductsByHandle(lines.map((line) => line.handle));
+  const lookupHandles = lines.flatMap((line) => getHandleCandidates(line.handle));
+  const productsByHandle = await fetchProductsByHandle(lookupHandles);
 
   const formattedLines = lines.map((line) => {
-    const product = productsByHandle.get(line.handle);
-    const variant = product?.variants.edges.find(
-      ({ node }) => node.title === line.variantTitle && node.availableForSale,
-    )?.node;
+    const product =
+      productsByHandle.get(line.handle) ??
+      getHandleCandidates(line.handle)
+        .map((candidate) => productsByHandle.get(candidate))
+        .find(Boolean);
+    const variant = resolveVariant(product, line.variantTitle);
 
     if (!variant) {
       throw new Error(

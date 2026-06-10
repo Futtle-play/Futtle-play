@@ -121,8 +121,8 @@ export const products: Product[] = [
   {
     id: "brasil",
     shopifyHandle: "futtle-brasil",
-    title: "Futtle Brasil",
-    edition: "Brasil Edition",
+    title: "Futtle Brazil",
+    edition: "Brazil Edition",
     basePrice: 199,
     currencyCode: "INR",
     currencySymbol: "₹",
