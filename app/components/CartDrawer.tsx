@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import FuttleVisual from "./FuttleVisual";
 
@@ -26,6 +27,7 @@ export default function CartDrawer() {
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const currencySymbol = cart[0]?.currencySymbol ?? "₹";
+  const itemCount = cart.reduce((count, item) => count + item.quantity, 0);
 
   return (
     <div
@@ -40,9 +42,14 @@ export default function CartDrawer() {
         <div className="w-screen max-w-md">
           <div className="relative flex h-full flex-col border-l border-[#2a2a28]/60 bg-[#0b0b0a] shadow-2xl">
             <div className="flex items-center justify-between border-b border-[#2a2a28]/60 px-4 py-6 sm:px-6">
-              <h2 className="font-display text-xl font-bold uppercase text-[#f5f1e8]" id="slide-over-title">
-                Your Gear
-              </h2>
+              <div>
+                <h2 className="font-display text-xl font-bold uppercase text-[#f5f1e8]" id="slide-over-title">
+                  Bag
+                </h2>
+                <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.18em] text-[#f5f1e8]/35">
+                  {itemCount === 0 ? "Ready for your first Futtle" : `${itemCount} ${itemCount === 1 ? "item" : "items"} selected`}
+                </p>
+              </div>
               <button
                 onClick={toggleCart}
                 className="cursor-pointer rounded-full p-2 text-[#f5f1e8]/50 transition-colors hover:bg-[#2a2a28]/35 hover:text-white"
@@ -56,25 +63,37 @@ export default function CartDrawer() {
 
             <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
               {cart.length === 0 ? (
-                <div className="flex h-full flex-col items-center justify-center text-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.2"
-                    stroke="currentColor"
-                    className="mb-4 h-16 w-16 text-[#f5f1e8]/25"
+                <div className="flex h-full flex-col justify-between">
+                  <div className="flex flex-1 flex-col items-center justify-center text-center">
+                    <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-[#2a2a28]/70 bg-[#121211]">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.4"
+                        stroke="currentColor"
+                        className="h-9 w-9 text-[#f5f1e8]/40"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="font-display text-2xl font-bold uppercase text-white">Your bag is empty</h3>
+                    <p className="mt-3 max-w-[260px] text-sm leading-6 text-[#f5f1e8]/55">
+                      Start with the Brazil Edition, then head to secure checkout when you are ready.
+                    </p>
+                  </div>
+
+                  <Link
+                    href="/#shop"
+                    onClick={toggleCart}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-[#ff4d1a] px-5 py-4 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_20px_rgba(255,77,26,0.22)] transition-all duration-300 hover:bg-[#ff4d1a]/90"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />
-                  </svg>
-                  <h3 className="mb-1 font-display text-lg font-bold uppercase text-white">Cart is empty</h3>
-                  <p className="max-w-[220px] text-xs leading-relaxed text-[#f5f1e8]/50">
-                    Pick a Futtle edition from the shop and the cart will stay ready here.
-                  </p>
+                    Shop Futtle
+                  </Link>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -103,7 +122,7 @@ export default function CartDrawer() {
                                   {item.offerLabel}
                                 </span>
                               </div>
-                              <span className="font-mono text-xs text-[#ff4d1a]">
+                              <span className="font-mono text-xs font-bold text-[#ff4d1a]">
                                 {item.currencySymbol}
                                 {item.price * item.quantity}
                               </span>
@@ -155,6 +174,12 @@ export default function CartDrawer() {
               <div className="bg-[#0c0c0b] px-4 py-6 sm:px-6 border-t border-[#2a2a28]/60">
                 <div className="space-y-4">
                   <div className="flex justify-between text-sm font-medium">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#f5f1e8]/35">Order summary</span>
+                    <span className="text-[#f5f1e8]/60">
+                      {itemCount} {itemCount === 1 ? "item" : "items"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm font-medium">
                     <span className="text-[#f5f1e8]/60">Subtotal</span>
                     <span className="font-mono text-base font-bold text-white">
                       {currencySymbol}
@@ -162,17 +187,11 @@ export default function CartDrawer() {
                     </span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-[#f5f1e8]/60">Shipping</span>
+                    <span className="text-[#f5f1e8]/60">Delivery</span>
                     <span className="font-mono font-bold uppercase tracking-wider text-[#d4ff3a]">
-                      Calculated at checkout
+                      Shown before payment
                     </span>
                   </div>
-                  <p className="text-[10px] leading-relaxed text-[#f5f1e8]/40">
-                    Taxes, shipping, and payment are handled in checkout once the storefront is connected.
-                  </p>
-                  <p className="rounded-2xl border border-[#2a2a28]/70 bg-[#121211] px-3 py-2 text-[10px] leading-relaxed text-[#f5f1e8]/45">
-                    After checkout, use the same email to track orders and receipts. Shopify sends a one-time code, no password needed.
-                  </p>
                   {checkoutError ? (
                     <p className="rounded-2xl border border-[#ff4d1a]/30 bg-[#ff4d1a]/8 px-3 py-2 text-[11px] leading-relaxed text-[#ffd1c4]">
                       {checkoutError}
@@ -180,14 +199,21 @@ export default function CartDrawer() {
                   ) : null}
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-6 space-y-3">
                   <button
                     onClick={checkout}
                     disabled={isCheckingOut}
                     className="w-full cursor-pointer rounded-full bg-[#ff4d1a] py-4 text-sm font-bold uppercase tracking-wide text-white shadow-[0_4px_20px_rgba(255,77,26,0.25)] transition-all duration-300 hover:bg-[#ff4d1a]/90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isCheckingOut ? "Connecting to checkout..." : "Secure Checkout"}
+                    {isCheckingOut ? "Opening checkout..." : "Checkout securely"}
                   </button>
+                  <Link
+                    href="/#shop"
+                    onClick={toggleCart}
+                    className="inline-flex w-full items-center justify-center rounded-full border border-[#2a2a28]/80 bg-[#121211] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#f5f1e8]/65 transition-colors hover:border-[#f5f1e8]/30 hover:text-white"
+                  >
+                    Continue shopping
+                  </Link>
                 </div>
               </div>
             )}

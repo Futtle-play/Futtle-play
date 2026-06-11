@@ -6,6 +6,7 @@ export interface ProductOffer {
   shortLabel: string;
   quantity: number;
   shopifyVariantTitle: string;
+  price?: number;
 }
 
 export interface ProductImage {
@@ -58,6 +59,7 @@ const defaultOffers: ProductOffer[] = [
     shortLabel: "3-Pack",
     quantity: 3,
     shopifyVariantTitle: "Freestyle 3-Pack",
+    price: 549,
   },
 ];
 
@@ -122,49 +124,49 @@ export const products: Product[] = [
     gallery: [
       {
         src: "/f_b_eyeview.jpeg",
-        alt: "Futtle Brasil eye-level view",
+        alt: "Futtle Brazil eye-level view",
         width: 1280,
         height: 960,
       },
       {
         src: "/f_b_topview.jpeg",
-        alt: "Futtle Brasil top view",
+        alt: "Futtle Brazil top view",
         width: 4160,
         height: 3120,
       },
       {
         src: "/f_b_closeup.jpeg",
-        alt: "Futtle Brasil close-up",
+        alt: "Futtle Brazil close-up",
         width: 1600,
         height: 1200,
       },
       {
         src: "/f_b_scloseup.jpeg",
-        alt: "Futtle Brasil side close-up",
+        alt: "Futtle Brazil side close-up",
         width: 1600,
         height: 1200,
       },
       {
         src: "/f_b_feathers.jpeg",
-        alt: "Futtle Brasil feather detail",
+        alt: "Futtle Brazil feather detail",
         width: 1600,
         height: 1200,
       },
       {
         src: "/f_b_sleeping.jpeg",
-        alt: "Futtle Brasil resting on a shoe",
+        alt: "Futtle Brazil resting on a shoe",
         width: 1600,
         height: 1200,
       },
       {
         src: "/f_b_bottomsup.jpeg",
-        alt: "Futtle Brasil bottom-up view",
+        alt: "Futtle Brazil bottom-up view",
         width: 1600,
         height: 1200,
       },
       {
         src: "/f_b_sizeref.jpeg",
-        alt: "Futtle Brasil size reference",
+        alt: "Futtle Brazil size reference",
         width: 1600,
         height: 1200,
       },
@@ -251,6 +253,10 @@ export const products: Product[] = [
 ];
 
 export function getOfferPrice(product: Product, offer: ProductOffer): number {
+  if (offer.price) {
+    return offer.price;
+  }
+
   return product.basePrice * offer.quantity;
 }
 

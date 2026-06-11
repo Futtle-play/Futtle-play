@@ -5,7 +5,7 @@ import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "FUTTLE — Kick. Don't Throw.",
-  description: "Descent of a 2,000-year-old street game. Rebuilt for modern play. Two feet. One Futtle. Infinite skill.",
+  description: "A 2,000-year-old street game, rebuilt for modern play. ₹199. Made in India.",
 };
 
 export default function RootLayout({

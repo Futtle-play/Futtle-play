@@ -56,7 +56,7 @@ export default function Hero() {
           </h1>
 
           <p className="max-w-xl text-[1rem] leading-7 text-text-theme/70 sm:text-lg animate-fade-in">
-            Futtle is a modern build of Jianzi — a 2,000-year-old foot-juggling game. Weighted rubber base, hand selected goose feathers, calibrated for controlled touch sequences. Your feet&apos;s favorite side quest.
+            Futtle is a modern build of Jianzi — a 2,000-year-old foot-juggling game. Weighted rubber base, hand-selected goose feathers, calibrated for controlled touch sequences. Your feet&apos;s favorite side quest.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 animate-fade-in">

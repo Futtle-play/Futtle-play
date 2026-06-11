@@ -36,7 +36,7 @@ export default function Story() {
               Origin
             </p>
             <h2 className="max-w-4xl font-display text-[clamp(2.8rem,11vw,4.2rem)] font-bold uppercase leading-[0.92] tracking-[-0.055em] text-text-theme sm:text-[clamp(3.5rem,7vw,5.4rem)] lg:tracking-[-0.065em]">
-              A street game with century old legacy
+              A street game with a centuries-old legacy.
             </h2>
           </div>
 

@@ -141,7 +141,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     if (!isShopifyConfigured()) {
       setCheckoutError(
-        "Add NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN and NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN to enable live checkout.",
+        "Checkout is temporarily unavailable. Please try again in a few minutes.",
       );
       setIsCartOpen(true);
       return;
@@ -161,17 +161,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       if (!checkoutUrl) {
         throw new Error(
-          "Shopify did not return a checkout URL. Confirm the storefront products and variants exist.",
+          "Checkout could not be started.",
         );
       }
 
       window.location.assign(checkoutUrl);
     } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Checkout failed before Shopify could create the cart.";
-      setCheckoutError(message);
+      console.error("Checkout failed", error);
+      setCheckoutError("Checkout is temporarily unavailable. Please try again in a few minutes.");
       setIsCartOpen(true);
     } finally {
       setIsCheckingOut(false);
