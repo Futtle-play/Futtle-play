@@ -19,15 +19,18 @@ The app is usable without Shopify credentials for browsing products and building
 NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
 NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your-storefront-token
 NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_VERSION=2024-01
+NEXT_PUBLIC_SHOPIFY_CUSTOMER_ACCOUNT_URL=https://shopify.com/00000000/account
 ```
 
 Copy `.env.example` to `.env.local` and fill in the values.
+
+`NEXT_PUBLIC_SHOPIFY_CUSTOMER_ACCOUNT_URL` is optional. If omitted, the storefront uses `https://${NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/account` for the Track order link.
 
 ## Store data assumptions
 
 For checkout to work after keys are added, Shopify needs:
 
-- Products whose handles match the local catalog in [`app/data/products.ts`](/Users/mohammadshazan/Desktop/Projects/futtle/app/data/products.ts:1)
+- Products whose handles match the local catalog in [`app/data/products.ts`]
 - Variants titled `Single Kit` and `Freestyle 3-Pack` for each product
 
 If the merchant uses different handles or variant titles, update the local catalog mapping before launch.

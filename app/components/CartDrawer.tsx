@@ -170,6 +170,9 @@ export default function CartDrawer() {
                   <p className="text-[10px] leading-relaxed text-[#f5f1e8]/40">
                     Taxes, shipping, and payment are handled in checkout once the storefront is connected.
                   </p>
+                  <p className="rounded-2xl border border-[#2a2a28]/70 bg-[#121211] px-3 py-2 text-[10px] leading-relaxed text-[#f5f1e8]/45">
+                    After checkout, use the same email to track orders and receipts. Shopify sends a one-time code, no password needed.
+                  </p>
                   {checkoutError ? (
                     <p className="rounded-2xl border border-[#ff4d1a]/30 bg-[#ff4d1a]/8 px-3 py-2 text-[11px] leading-relaxed text-[#ffd1c4]">
                       {checkoutError}

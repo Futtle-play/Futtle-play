@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
+import { getCustomerAccountUrl, isCustomerAccountConfigured } from "../../lib/customerAccounts";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,8 @@ export default function Navbar() {
   });
   const { cart, openCart } = useCart();
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
+  const customerAccountHref = getCustomerAccountUrl();
+  const customerAccountConfigured = isCustomerAccountConfigured();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,6 +106,17 @@ export default function Navbar() {
           >
             Care
           </Link>
+          <a
+            href={customerAccountHref}
+            aria-disabled={!customerAccountConfigured}
+            className={`py-1 uppercase transition-colors ${
+              customerAccountConfigured
+                ? "text-text-theme/60 hover:text-accent-active"
+                : "pointer-events-none text-text-theme/20"
+            }`}
+          >
+            Track order
+          </a>
         </nav>
 
         <div className="relative flex items-center gap-2 sm:gap-3">
@@ -181,6 +195,18 @@ export default function Navbar() {
             >
               Care
             </Link>
+            <a
+              href={customerAccountHref}
+              aria-disabled={!customerAccountConfigured}
+              onClick={() => setOpen(false)}
+              className={`border-b border-border-theme py-2 text-left font-mono text-[10px] uppercase tracking-widest transition-colors ${
+                customerAccountConfigured
+                  ? "text-text-theme/70 hover:text-accent-active"
+                  : "pointer-events-none text-text-theme/20"
+              }`}
+            >
+              Track order
+            </a>
           </div>
         </nav>
       )}
