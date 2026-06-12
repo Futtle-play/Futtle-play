@@ -5,6 +5,8 @@ import ShopSection from "./components/ShopSection";
 import CommunityPosters from "./components/CommunityPosters";
 import Story from "./components/Story";
 import FieldGuide from "./components/FieldGuide";
+import PickupGames from "./components/PickupGames";
+import Reviews from "./components/Reviews";
 import CareLifetime from "./components/CareLifetime";
 import Footer from "./components/Footer";
 
@@ -18,6 +20,8 @@ export default function Home() {
         <ShopSection />
         <CommunityPosters />
         <FieldGuide />
+        <PickupGames />
+        <Reviews />
         <Story />
         <CareLifetime />
       </main>

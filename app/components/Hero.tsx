@@ -70,7 +70,7 @@ export default function Hero() {
               onClick={() => scrollToSection("guide")}
               className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/12 bg-[rgba(255,255,255,0.03)] px-7 py-3 text-xs font-medium uppercase tracking-[0.16em] text-text-theme/80 transition-colors duration-300 hover:bg-text-theme hover:text-bg-theme cursor-pointer"
             >
-              Read the sequence
+              How to play
             </button>
           </div>
 

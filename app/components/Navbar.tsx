@@ -5,22 +5,42 @@ import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import { getCustomerAccountUrl, isCustomerAccountConfigured } from "../../lib/customerAccounts";
 
+const instagramHref = "https://www.instagram.com/futtleindia/";
+const whatsappHref = "https://wa.me/+918860801685";
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
   const hiddenAtScrollY = useRef<number | null>(null);
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof document === "undefined") {
-      return "dark";
-    }
-
-    return document.documentElement.classList.contains("dark") ? "dark" : "light";
-  });
   const { cart, openCart } = useCart();
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
   const customerAccountHref = getCustomerAccountUrl();
   const customerAccountConfigured = isCustomerAccountConfigured();
+  const scrollToHomeSection = (
+    sectionId: string,
+    closeMenu = false,
+    block: ScrollLogicalPosition = "start"
+  ) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.pathname !== "/") {
+      if (closeMenu) {
+        setOpen(false);
+      }
+      return;
+    }
+
+    const section = document.getElementById(sectionId);
+    if (!section) {
+      return;
+    }
+
+    event.preventDefault();
+    if (closeMenu) {
+      setOpen(false);
+    }
+    window.history.pushState(null, "", `/#${sectionId}`);
+    section.scrollIntoView({ behavior: "smooth", block });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,18 +85,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [open]);
 
-  const toggleTheme = () => {
-    if (theme === "dark") {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setTheme("light");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setTheme("dark");
-    }
-  };
-
   return (
     <header className={`sticky top-0 z-50 w-full border-b border-border-theme bg-header-theme/92 shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl transform transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"}`}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -94,20 +102,28 @@ export default function Navbar() {
           >
             Story
           </Link>
-          <Link
+          {/* <Link
             href="/#guide"
             className="py-1 uppercase text-text-theme/60 transition-colors hover:text-accent-active cursor-pointer"
           >
             How to play
-          </Link>
+          </Link> */}
           <Link
             href="/#events"
             className="py-1 uppercase text-text-theme/60 transition-colors hover:text-accent-active cursor-pointer"
           >
             Events
           </Link>
+          <Link
+            href="/#pickup-games"
+            onClick={scrollToHomeSection("pickup-games", false, "center")}
+            className="py-1 uppercase text-text-theme/60 transition-colors hover:text-accent-active cursor-pointer"
+          >
+            Pickup Games
+          </Link>
           <a
             href={customerAccountHref}
+            target="_blank"
             aria-disabled={!customerAccountConfigured}
             className={`py-1 uppercase transition-colors ${
               customerAccountConfigured
@@ -120,21 +136,31 @@ export default function Navbar() {
         </nav>
 
         <div className="relative flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={toggleTheme}
-            className="mr-1 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme transition-all duration-300 hover:bg-accent-active hover:text-black"
-            aria-label="Toggle Theme"
+          <a
+            href={instagramHref}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme transition-all duration-300 hover:border-accent-active hover:bg-accent-active hover:text-black"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Instagram"
           >
-            {theme === "dark" ? (
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.59 1.59m12.38 12.38l1.59 1.59M21 12h-2.25m-13.5 0H3m2.22 9.78l1.59-1.59m12.38-12.38l1.59-1.59M12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4.5 w-4.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-              </svg>
-            )}
-          </button>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-4.5 w-4.5">
+              <rect width="17.5" height="17.5" x="3.25" y="3.25" rx="5" stroke="currentColor" strokeWidth="1.8" />
+              <circle cx="12" cy="12" r="3.7" stroke="currentColor" strokeWidth="1.8" />
+              <circle cx="17" cy="7" r="1.1" fill="currentColor" />
+            </svg>
+          </a>
+
+          <a
+            href={whatsappHref}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme transition-all duration-300 hover:border-accent-active hover:bg-accent-active hover:text-black"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open WhatsApp"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4.5 w-4.5">
+              <path d="M20.52 3.48A11.82 11.82 0 0 0 12.08 0C5.5 0 .14 5.35.14 11.94c0 2.1.55 4.16 1.6 5.97L0 24l6.25-1.64a11.9 11.9 0 0 0 5.83 1.49h.01c6.58 0 11.94-5.35 11.94-11.94 0-3.19-1.25-6.18-3.51-8.43Zm-8.43 18.35h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.71.97.99-3.62-.23-.37a9.87 9.87 0 0 1-1.51-5.28C2.22 6.47 6.68 2.02 12.09 2.02c2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.47-4.45 9.92-9.88 9.92Zm5.42-7.43c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z" />
+            </svg>
+          </a>
 
           <button
             onClick={openCart}
@@ -181,19 +207,26 @@ export default function Navbar() {
             >
               Story
             </Link>
-            <Link
+            {/* <Link
               href="/#guide"
               onClick={() => setOpen(false)}
               className="border-b border-border-theme py-2 text-left font-mono text-[10px] uppercase tracking-widest text-text-theme/70 transition-colors hover:text-accent-active cursor-pointer"
             >
               How to play
-            </Link>
+            </Link> */}
             <Link
               href="/#events"
               onClick={() => setOpen(false)}
               className="border-b border-border-theme py-2 text-left font-mono text-[10px] uppercase tracking-widest text-text-theme/70 transition-colors hover:text-accent-active cursor-pointer"
             >
               Events
+            </Link>
+            <Link
+              href="/#pickup-games"
+              onClick={scrollToHomeSection("pickup-games", true, "center")}
+              className="border-b border-border-theme py-2 text-left font-mono text-[10px] uppercase tracking-widest text-text-theme/70 transition-colors hover:text-accent-active cursor-pointer"
+            >
+              Pickup Games
             </Link>
             <a
               href={customerAccountHref}
