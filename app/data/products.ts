@@ -14,6 +14,7 @@ export interface ProductImage {
   alt: string;
   width: number;
   height: number;
+  blurDataURL: string;
 }
 
 export interface Product {
@@ -87,10 +88,11 @@ export const products: Product[] = [
     kitTheme: "Sky Blue & Cloud White",
     gallery: [
       {
-        src: "/f_a_eyeview.png",
+        src: "/f_a_eyeview.webp",
         alt: "Futtle Argentina eye-level view",
         width: 2390,
         height: 1792,
+        blurDataURL: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAwAA8BgJaQAAubhZyUp3AD+tcZf+bjrsJi5AGSgEZIQ2qAT8YAA",
       },
     ],
     specs: {
@@ -123,52 +125,60 @@ export const products: Product[] = [
     kitTheme: "Canary Yellow & Forest Green",
     gallery: [
       {
-        src: "/f_b_eyeview.jpeg",
+        src: "/f_b_eyeview.webp",
         alt: "Futtle Brazil eye-level view",
         width: 1280,
         height: 960,
+        blurDataURL: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAwAA8BgJZwAAucVHqAkwAD+tccTFO3Lcs21BdLXx/QbEEThAAAA",
       },
       {
-        src: "/f_b_topview.jpeg",
+        src: "/f_b_topview.webp",
         alt: "Futtle Brazil top view",
         width: 4160,
         height: 3120,
+        blurDataURL: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADwAQCdASoQAAwAA8BgJZQAAuRltdOJ7MAA/t60tEgM7Kth/jAqeJjiF60dXgAA",
       },
       {
-        src: "/f_b_closeup.jpeg",
+        src: "/f_b_closeup.webp",
         alt: "Futtle Brazil close-up",
         width: 1600,
         height: 1200,
+        blurDataURL: "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoQAAwAA8BgJbACdADDfEC2VsAA/vA4LQvxX9u6rOQxuK3Bh3YFPCT5h8JUhh9SuVcbHCPaKrJajkYaAAA=",
       },
       {
-        src: "/f_b_scloseup.jpeg",
+        src: "/f_b_scloseup.webp",
         alt: "Futtle Brazil side close-up",
         width: 1600,
         height: 1200,
+        blurDataURL: "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACQAQCdASoQAAwAA8BgJbAAAjr0ngAA/vHftKDIyjw/VlPbyh7J+h0oK/SJn7hz//dPrJjhL+mgT5AA",
       },
       {
-        src: "/f_b_feathers.jpeg",
+        src: "/f_b_feathers.webp",
         alt: "Futtle Brazil feather detail",
         width: 1600,
         height: 1200,
+        blurDataURL: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoQAAwAA8BgJZgCdADREWthgAD44GxG6go1iL2Cz7Az3Y2T+m/LQPiho4MRMUwA",
       },
       {
-        src: "/f_b_sleeping.jpeg",
+        src: "/f_b_sleeping.webp",
         alt: "Futtle Brazil resting on a shoe",
         width: 1600,
         height: 1200,
+        blurDataURL: "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADwAQCdASoQAAwAA8BgJYwBTAA8Af69vAAA/up9vuWHHU+oEVMtLX6+vzEBbqbTnmQAAA==",
       },
       {
-        src: "/f_b_bottomsup.jpeg",
+        src: "/f_b_bottomsup.webp",
         alt: "Futtle Brazil bottom-up view",
         width: 1600,
         height: 1200,
+        blurDataURL: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoQAAwAA8BgJbACdAC/6vTAAP7D8R4p5KozJV0dfjUDjt7u4pdYT8Mfl2RHIewAAAA=",
       },
       {
-        src: "/f_b_sizeref.jpeg",
+        src: "/f_b_sizeref.webp",
         alt: "Futtle Brazil size reference",
         width: 1600,
         height: 1200,
+        blurDataURL: "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAQCdASoQAAwAA8BgJbACdADaPQf0CAAA/upM9u50xfDtbcvyDb4LpazfY80C2/c4A0zJ/EsIvKI1o6FJapODDGnrExG4Uk7r+E4GN3AAAA==",
       },
     ],
     specs: {
@@ -201,10 +211,11 @@ export const products: Product[] = [
     kitTheme: "Crimson Red & Deep Green",
     gallery: [
       {
-        src: "/f_p_eyeview.png",
+        src: "/f_p_eyeview.webp",
         alt: "Futtle Portugal eye-level view",
         width: 2390,
         height: 1792,
+        blurDataURL: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAwAA8BgJZQAAudlUM+Re8AA/rYCraO1/Sr2lA7cwMCeBCEfhTFxIMAithqhAAA=",
       },
     ],
     specs: {
@@ -237,10 +248,11 @@ export const products: Product[] = [
     kitTheme: "Tricolore - Blue, White, & Red",
     gallery: [
       {
-        src: "/f_f_eyeview.png",
+        src: "/f_f_eyeview.webp",
         alt: "Futtle France eye-level view",
         width: 2390,
         height: 1792,
+        blurDataURL: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADwAQCdASoQAAwAA8BgJZwAAudhg1zt5CAA/rYCraPpZMdcvufR8tTFfS5qsWlLhBeQ4AAA",
       },
     ],
     specs: {

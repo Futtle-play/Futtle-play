@@ -122,7 +122,7 @@ export default function Navbar() {
         <div className="relative flex items-center gap-2 sm:gap-3">
           <button
             onClick={toggleTheme}
-            className="mr-1 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme transition-all duration-300 hover:bg-accent-active hover:text-black"
+            className="mr-1 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme transition-all duration-300 hover:bg-accent-active hover:text-black"
             aria-label="Toggle Theme"
           >
             {theme === "dark" ? (
@@ -138,7 +138,7 @@ export default function Navbar() {
 
           <button
             onClick={openCart}
-            className="relative flex h-10 min-w-10 items-center justify-center rounded-full border border-border-theme bg-panel-theme px-3 text-text-theme transition-all duration-300 hover:border-accent-active hover:text-accent-active cursor-pointer"
+            className="relative flex h-11 min-w-11 items-center justify-center rounded-full border border-border-theme bg-panel-theme px-3 text-text-theme transition-all duration-300 hover:border-accent-active hover:text-accent-active cursor-pointer"
             aria-label="Open cart"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.8" stroke="currentColor" className="h-4.5 w-4.5">
@@ -153,7 +153,7 @@ export default function Navbar() {
 
           <Link
             href="/#shop"
-            className="inline-flex min-h-10 rounded-full bg-text-theme px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-accent-active hover:text-black hover:shadow-[0_0_20px_rgba(212,255,58,0.25)] sm:px-5"
+            className="inline-flex min-h-11 items-center rounded-full bg-text-theme px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-accent-active hover:text-black hover:shadow-[0_0_20px_rgba(212,255,58,0.25)] sm:px-5"
           >
             <span className="sm:hidden">Shop</span>
             <span className="hidden sm:inline">Shop Now</span>
@@ -161,7 +161,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setOpen(!open)}
-            className="flex flex-col items-center justify-center gap-1.5 p-2 text-text-theme md:hidden cursor-pointer"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 text-text-theme md:hidden cursor-pointer"
             aria-label="Toggle Menu"
           >
             <span className={`block h-[1px] w-4 bg-current transition-all duration-300 ${open ? "translate-y-[2.5px] rotate-45" : ""}`} />

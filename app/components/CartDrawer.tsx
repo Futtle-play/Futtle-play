@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import FuttleVisual from "./FuttleVisual";
@@ -15,11 +15,32 @@ export default function CartDrawer() {
     isCartOpen,
     isCheckingOut,
     checkoutError,
-    toggleCart,
+    closeCart,
     updateQuantity,
     removeFromCart,
     checkout,
   } = useCart();
+
+  useEffect(() => {
+    if (!isCartOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeCart();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeCart, isCartOpen]);
 
   if (!isCartOpen) {
     return null;
@@ -36,7 +57,7 @@ export default function CartDrawer() {
       role="dialog"
       aria-modal="true"
     >
-      <div onClick={toggleCart} className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
+      <div onClick={closeCart} className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
 
       <div className="absolute inset-y-0 right-0 flex max-w-full pl-10">
         <div className="w-screen max-w-md">
@@ -51,8 +72,8 @@ export default function CartDrawer() {
                 </p>
               </div>
               <button
-                onClick={toggleCart}
-                className="cursor-pointer rounded-full p-2 text-[#f5f1e8]/50 transition-colors hover:bg-[#2a2a28]/35 hover:text-white"
+                onClick={closeCart}
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-[#f5f1e8]/50 transition-colors hover:bg-[#2a2a28]/35 hover:text-white"
                 aria-label="Close cart"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="h-5 w-5">
@@ -89,7 +110,7 @@ export default function CartDrawer() {
 
                   <Link
                     href="/#shop"
-                    onClick={toggleCart}
+                    onClick={closeCart}
                     className="inline-flex w-full items-center justify-center rounded-full bg-[#ff4d1a] px-5 py-4 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_20px_rgba(255,77,26,0.22)] transition-all duration-300 hover:bg-[#ff4d1a]/90"
                   >
                     Shop Futtle
@@ -136,7 +157,7 @@ export default function CartDrawer() {
                             <div className="flex items-center rounded-full border border-[#2a2a28]/80 bg-[#121211] p-0.5">
                               <button
                                 onClick={() => updateQuantity(itemKey, item.quantity - 1)}
-                                className="cursor-pointer p-1.5 text-white/50 hover:text-white"
+                                className="flex h-8 w-8 cursor-pointer items-center justify-center text-white/50 hover:text-white"
                                 aria-label="Decrease quantity"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="h-3.5 w-3.5">
@@ -146,7 +167,7 @@ export default function CartDrawer() {
                               <span className="px-2.5 font-mono text-xs font-bold text-white">{item.quantity}</span>
                               <button
                                 onClick={() => updateQuantity(itemKey, item.quantity + 1)}
-                                className="cursor-pointer p-1.5 text-white/50 hover:text-white"
+                                className="flex h-8 w-8 cursor-pointer items-center justify-center text-white/50 hover:text-white"
                                 aria-label="Increase quantity"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="h-3.5 w-3.5">
@@ -209,7 +230,7 @@ export default function CartDrawer() {
                   </button>
                   <Link
                     href="/#shop"
-                    onClick={toggleCart}
+                    onClick={closeCart}
                     className="inline-flex w-full items-center justify-center rounded-full border border-[#2a2a28]/80 bg-[#121211] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#f5f1e8]/65 transition-colors hover:border-[#f5f1e8]/30 hover:text-white"
                   >
                     Continue shopping

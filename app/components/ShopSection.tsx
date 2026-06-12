@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";
@@ -10,9 +10,11 @@ import FuttleVisual from "./FuttleVisual";
 function ProductArtwork({
   product,
   interactive,
+  loading = "lazy",
 }: {
   product: Product;
   interactive: boolean;
+  loading?: "eager" | "lazy";
 }) {
   const firstImage = product.gallery?.[0];
 
@@ -23,7 +25,10 @@ function ProductArtwork({
           src={firstImage.src}
           alt={firstImage.alt}
           fill
-          priority={!interactive && product.isAvailable}
+          loading={loading}
+          unoptimized
+          placeholder="blur"
+          blurDataURL={firstImage.blurDataURL}
           sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 100vw"
           className={`object-contain transition-transform duration-500 ${
             interactive ? "p-4 group-hover:scale-[1.02]" : "p-2 scale-[1.12]"
@@ -48,9 +53,11 @@ function ProductArtwork({
 function ProductCard({
   product,
   onPreview,
+  loading,
 }: {
   product: Product;
   onPreview: (product: Product) => void;
+  loading?: "eager" | "lazy";
 }) {
   const primaryOffer = getOfferByKey(product, "single");
 
@@ -67,7 +74,7 @@ function ProductCard({
       <div className="relative">
         <button
           onClick={() => onPreview(product)}
-          className="absolute right-3 top-3 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-header-theme text-text-theme/80 opacity-0 transition-all duration-300 hover:scale-105 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] group-hover:opacity-100"
+          className="absolute right-3 top-3 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-header-theme text-text-theme/80 transition-all duration-300 hover:scale-105 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] focus-visible:opacity-100 sm:opacity-0 sm:group-focus-within:opacity-100 sm:group-hover:opacity-100"
           aria-label="Quick preview"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4">
@@ -79,7 +86,7 @@ function ProductCard({
         <Link href={`/shop/${product.id}`} className="block">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border-theme bg-bg-theme">
             <div className="flex h-full w-full items-center justify-center p-2">
-              <ProductArtwork product={product} interactive={false} />
+              <ProductArtwork product={product} interactive={false} loading={loading} />
             </div>
             {!product.isAvailable ? <div className="absolute inset-0 bg-black/35" /> : null}
             <div className="absolute left-3 top-3 rounded-full border border-border-theme bg-black/70 px-2.5 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/80 backdrop-blur-sm">
@@ -118,8 +125,29 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
   const { addToCart } = useCart();
   const previewDisabled = !product.isAvailable;
 
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="preview-modal-title"
+      onClick={onClose}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 px-4 py-6 backdrop-blur-md animate-fade-in"
       style={{
         "--prod-accent": `var(--accent-${product.id})`,
@@ -127,10 +155,13 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
         "--prod-glow-button": `var(--glow-button-${product.id})`,
       } as React.CSSProperties}
     >
-      <div className="relative max-h-[95dvh] w-full max-w-4xl overflow-y-auto rounded-[2rem] border border-border-theme bg-card-theme p-6 text-text-theme shadow-2xl sm:p-10">
+      <div
+        onClick={(event) => event.stopPropagation()}
+        className="relative max-h-[95dvh] w-full max-w-4xl overflow-y-auto rounded-[2rem] border border-border-theme bg-card-theme p-6 text-text-theme shadow-2xl sm:p-10"
+      >
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme/60 transition-all duration-300 hover:border-transparent hover:bg-text-theme hover:text-bg-theme"
+          className="absolute right-5 top-5 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-border-theme bg-panel-theme text-text-theme/60 transition-all duration-300 hover:border-transparent hover:bg-text-theme hover:text-bg-theme"
           aria-label="Close preview"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-5 w-5">
@@ -154,7 +185,7 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
               >
                 {product.edition}
               </span>
-              <h2 className="mt-4 font-display text-3xl font-bold uppercase leading-none tracking-tight text-text-theme">
+              <h2 id="preview-modal-title" className="mt-4 font-display text-3xl font-bold uppercase leading-none tracking-tight text-text-theme">
                 {product.title}
               </h2>
               <p className="mt-2 text-xs font-mono uppercase tracking-wider" style={{ color: `var(--accent-${product.id})` }}>
@@ -249,8 +280,13 @@ export default function ShopSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {visibleProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onPreview={setPreviewProduct} />
+          {visibleProducts.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              loading={index === 0 ? "eager" : "lazy"}
+              onPreview={setPreviewProduct}
+            />
           ))}
         </div>
       </div>

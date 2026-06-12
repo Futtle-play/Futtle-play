@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getOfferByKey, getOfferPrice, Product, ProductOfferKey } from "../data/products";
 import { getShopifyCheckoutUrl, isShopifyConfigured } from "../../lib/shopify";
 
@@ -28,6 +28,7 @@ interface CartContextType {
   updateQuantity: (itemKey: string, quantity: number) => void;
   toggleCart: () => void;
   openCart: () => void;
+  closeCart: () => void;
   clearCart: () => void;
   clearCheckoutError: () => void;
   checkout: () => Promise<void>;
@@ -40,46 +41,63 @@ function getCartItemKey(item: Pick<CartItem, "id" | "offerKey">): string {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    if (typeof window === "undefined") {
-      return [];
-    }
-
-    const savedCart = localStorage.getItem("futtle_cart");
-    if (!savedCart) {
-      return [];
-    }
-
-    try {
-      return JSON.parse(savedCart) as CartItem[];
-    } catch (error) {
-      console.error("Failed to parse cart from localStorage", error);
-      return [];
-    }
-  });
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const saveCart = (nextCart: CartItem[]) => {
-    setCart(nextCart);
-    localStorage.setItem("futtle_cart", JSON.stringify(nextCart));
+  useEffect(() => {
+    const savedCart = localStorage.getItem("futtle_cart");
+    if (!savedCart) {
+      return;
+    }
+
+    let restoreCartTimeout: number | undefined;
+
+    try {
+      const restoredCart = JSON.parse(savedCart) as CartItem[];
+      restoreCartTimeout = window.setTimeout(() => {
+        setCart(restoredCart);
+      }, 0);
+    } catch (error) {
+      console.error("Failed to parse cart from localStorage", error);
+      localStorage.removeItem("futtle_cart");
+    }
+
+    return () => {
+      if (restoreCartTimeout !== undefined) {
+        window.clearTimeout(restoreCartTimeout);
+      }
+    };
+  }, []);
+
+  const saveCart = (getNextCart: (currentCart: CartItem[]) => CartItem[]) => {
+    setCart((currentCart) => {
+      const nextCart = getNextCart(currentCart);
+      localStorage.setItem("futtle_cart", JSON.stringify(nextCart));
+      return nextCart;
+    });
   };
 
   const addToCart = (product: Product, offerKey: ProductOfferKey = "single", quantity = 1) => {
     const offer = getOfferByKey(product, offerKey);
     const itemKey = getCartItemKey({ id: product.id, offerKey: offer.key });
-    const existingItemIndex = cart.findIndex((item) => getCartItemKey(item) === itemKey);
 
     setCheckoutError(null);
 
-    if (existingItemIndex > -1) {
-      const nextCart = [...cart];
-      nextCart[existingItemIndex].quantity += quantity;
-      saveCart(nextCart);
-    } else {
-      saveCart([
-        ...cart,
+    saveCart((currentCart) => {
+      const existingItemIndex = currentCart.findIndex((item) => getCartItemKey(item) === itemKey);
+
+      if (existingItemIndex > -1) {
+        return currentCart.map((item, index) =>
+          index === existingItemIndex
+            ? { ...item, quantity: item.quantity + quantity }
+            : item,
+        );
+      }
+
+      return [
+        ...currentCart,
         {
           id: product.id,
           handle: product.shopifyHandle,
@@ -93,14 +111,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           quantity,
           colors: product.colors,
         },
-      ]);
-    }
+      ];
+    });
 
     setIsCartOpen(true);
   };
 
   const removeFromCart = (itemKey: string) => {
-    saveCart(cart.filter((item) => getCartItemKey(item) !== itemKey));
+    saveCart((currentCart) => currentCart.filter((item) => getCartItemKey(item) !== itemKey));
   };
 
   const updateQuantity = (itemKey: string, quantity: number) => {
@@ -109,8 +127,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    saveCart(
-      cart.map((item) =>
+    saveCart((currentCart) =>
+      currentCart.map((item) =>
         getCartItemKey(item) === itemKey ? { ...item, quantity } : item,
       ),
     );
@@ -126,8 +144,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsCartOpen(true);
   };
 
+  const closeCart = () => {
+    setCheckoutError(null);
+    setIsCartOpen(false);
+  };
+
   const clearCart = () => {
-    saveCart([]);
+    saveCart(() => []);
   };
 
   const clearCheckoutError = () => {
@@ -187,6 +210,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         updateQuantity,
         toggleCart,
         openCart,
+        closeCart,
         clearCart,
         clearCheckoutError,
         checkout,

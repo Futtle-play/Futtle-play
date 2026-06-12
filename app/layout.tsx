@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased dark" suppressHydrationWarning data-scroll-behavior="smooth">
-      <head>
+      <body className="min-h-full flex flex-col selection:bg-[#d4ff3a] selection:text-black">
         <Script id="theme-init" strategy="beforeInteractive">
           {`
             try {
@@ -28,8 +28,6 @@ export default function RootLayout({
             } catch (e) {}
           `}
         </Script>
-      </head>
-      <body className="min-h-full flex flex-col selection:bg-[#d4ff3a] selection:text-black">
         <Providers>{children}</Providers>
       </body>
     </html>

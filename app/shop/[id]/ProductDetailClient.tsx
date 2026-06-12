@@ -8,8 +8,38 @@ import { notFound } from "next/navigation";
 import Footer from "../../components/Footer";
 import FuttleVisual from "../../components/FuttleVisual";
 import Navbar from "../../components/Navbar";
-import { formatPrice, getOfferByKey, getOfferPrice, products, ProductOfferKey } from "../../data/products";
+import { formatPrice, getOfferByKey, getOfferPrice, products, ProductImage, ProductOfferKey } from "../../data/products";
 import { useCart } from "../../context/CartContext";
+
+function ProductGalleryPrefetch({
+  gallery,
+  activeIndex,
+}: {
+  gallery: ProductImage[];
+  activeIndex: number;
+}) {
+  React.useEffect(() => {
+    if (gallery.length <= 1) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      gallery.forEach((image, index) => {
+        if (index === activeIndex) {
+          return;
+        }
+
+        const prefetchImage = new window.Image();
+        prefetchImage.decoding = "async";
+        prefetchImage.src = image.src;
+      });
+    }, 350);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeIndex, gallery]);
+
+  return null;
+}
 
 export default function ProductDetailClient({ id }: { id: string }) {
   const product = products.find((entry) => entry.id === id);
@@ -77,6 +107,10 @@ export default function ProductDetailClient({ id }: { id: string }) {
           src={gallery[viewIndex].src}
           alt={gallery[viewIndex].alt}
           fill
+          loading="lazy"
+          unoptimized
+          placeholder="blur"
+          blurDataURL={gallery[viewIndex].blurDataURL}
           sizes={compact ? "72px" : "92px"}
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
@@ -116,6 +150,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
       } as React.CSSProperties}
     >
       <Navbar />
+      <ProductGalleryPrefetch gallery={gallery} activeIndex={activeView} />
 
       <main className="relative z-10 flex-1 px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pt-16">
         <div className="mx-auto max-w-7xl">
@@ -174,7 +209,10 @@ export default function ProductDetailClient({ id }: { id: string }) {
                         src={gallery[activeView].src}
                         alt={gallery[activeView].alt}
                         fill
-                        priority
+                        loading="eager"
+                        unoptimized
+                        placeholder="blur"
+                        blurDataURL={gallery[activeView].blurDataURL}
                         sizes="(min-width: 1024px) 40vw, 100vw"
                         className="object-contain p-4"
                       />

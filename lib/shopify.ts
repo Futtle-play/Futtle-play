@@ -1,6 +1,9 @@
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 const apiVersion = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_VERSION ?? "2024-01";
+const shopifyEndpoint = domain
+  ? `https://${domain.replace(/^https?:\/\//, "").replace(/\/$/, "")}/api/${apiVersion}/graphql.json`
+  : null;
 
 interface ShopifyFetchParams {
   query: string;
@@ -27,6 +30,10 @@ interface ShopifyProductNode {
   };
 }
 
+interface ShopifyGraphQLError {
+  message: string;
+}
+
 export interface ShopifyCheckoutLineInput {
   handle: string;
   variantTitle: string;
@@ -45,7 +52,11 @@ export async function shopifyFetch<T>({
     return null;
   }
 
-  const result = await fetch(`https://${domain}/api/${apiVersion}/graphql.json`, {
+  if (!shopifyEndpoint) {
+    return null;
+  }
+
+  const result = await fetch(shopifyEndpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,9 +66,19 @@ export async function shopifyFetch<T>({
     cache: "no-store",
   });
 
+  const body = await result.json() as T & { errors?: ShopifyGraphQLError[] };
+
+  if (!result.ok) {
+    throw new Error(`Shopify Storefront API returned HTTP ${result.status}.`);
+  }
+
+  if (body.errors?.length) {
+    throw new Error(body.errors.map((error) => error.message).join(" "));
+  }
+
   return {
     status: result.status,
-    body: await result.json(),
+    body,
   };
 }
 

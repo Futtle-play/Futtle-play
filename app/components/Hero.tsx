@@ -99,10 +99,13 @@ export default function Hero() {
             <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_50%_24%,rgba(212,255,58,0.12),transparent_34%),radial-gradient(circle_at_50%_85%,rgba(255,77,26,0.12),transparent_28%)]" />
 
             <Image
-              src="/f_b_nobg.png"
+              src="/f_b_nobg.webp"
               alt="Futtle Brazil"
               fill
-              priority
+              preload
+              unoptimized
+              placeholder="blur"
+              blurDataURL="data:image/webp;base64,UklGRgQBAABXRUJQVlA4WAoAAAAQAAAADwAACwAAQUxQSIkAAAANcB3Jtmmta9t4zOHlH4O/bNv2iyEiJgAgOP52uAIgSOL2ABg/TXemAnclH4v9HdCzaXm/FYTDsD0+A+BEOUhp1/s4X8XntrcKcpnLed7eER+r7ljK+pjMWPXLfTdaKpEwmGn8F1xX3Z2jLU8Cvl8O47UuHVjqB3Dcn2+EhH+XjZWv/zWqrB3mCwBWUDggVAAAAFACAJ0BKhAADAADwGAljAFMAW9LwS3rmFgAoADgMgFbhixeM/6EZr5b63zNnSGXFt1jaln6Pv0V/UoTjlCrJ6q9/JBSnwO+IX9Uam4WCx4AYoAAAA=="
               sizes="(min-width: 1024px) 26rem, (min-width: 640px) 22rem, 18rem"
               className="object-contain p-4 drop-shadow-[0_32px_64px_rgba(0,0,0,0.7)]"
             />
