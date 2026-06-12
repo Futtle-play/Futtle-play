@@ -98,13 +98,13 @@ export default function Navbar() {
             href="/#guide"
             className="py-1 uppercase text-text-theme/60 transition-colors hover:text-accent-active cursor-pointer"
           >
-            Learn
+            How to play
           </Link>
           <Link
-            href="/#care"
+            href="/#events"
             className="py-1 uppercase text-text-theme/60 transition-colors hover:text-accent-active cursor-pointer"
           >
-            Care
+            Events
           </Link>
           <a
             href={customerAccountHref}
@@ -186,14 +186,14 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className="border-b border-border-theme py-2 text-left font-mono text-[10px] uppercase tracking-widest text-text-theme/70 transition-colors hover:text-accent-active cursor-pointer"
             >
-              Learn
+              How to play
             </Link>
             <Link
-              href="/#care"
+              href="/#events"
               onClick={() => setOpen(false)}
               className="border-b border-border-theme py-2 text-left font-mono text-[10px] uppercase tracking-widest text-text-theme/70 transition-colors hover:text-accent-active cursor-pointer"
             >
-              Care
+              Events
             </Link>
             <a
               href={customerAccountHref}

@@ -48,15 +48,15 @@ export default function Hero() {
           </div>
 
           <h1 className="animate-scale-up font-display text-[clamp(2.8rem,15vw,7.5rem)] font-bold uppercase leading-[0.9] tracking-[-0.06em] text-text-theme sm:text-[clamp(3.4rem,8vw,7.5rem)]">
-            <span className="inline-block text-accent-active drop-shadow-[0_0_24px_rgba(212,255,58,0.2)]">Train</span>
-            <br />
-            <span className="inline-block text-[#ff7a1a]">your</span>
+            <span className="inline-block text-accent-active drop-shadow-[0_0_24px_rgba(212,255,58,0.2)]">Train </span>
+            <span> </span>
+            <span className="inline-block text-[#ff7a1a]"> your</span>
             <br />
             <span className="inline-block text-text-theme">first touch</span>
           </h1>
 
           <p className="max-w-xl text-[1rem] leading-7 text-text-theme/70 sm:text-lg animate-fade-in">
-            Futtle is a modern build of Jianzi — a 2,000-year-old foot-juggling game. Weighted rubber base, hand-selected goose feathers, calibrated for controlled touch sequences. Your feet&apos;s favorite side quest.
+            The football game you can carry anywhere.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 animate-fade-in">
