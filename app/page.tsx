@@ -17,7 +17,7 @@ export default function Home() {
 
       <main className="flex-1 relative z-10">
         <Hero />
-        <ShopSection />
+        <ShopSection preview />
         <CommunityPosters />
         <FieldGuide />
         <PickupGames />

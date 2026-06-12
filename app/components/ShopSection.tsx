@@ -7,6 +7,33 @@ import { useCart } from "../context/CartContext";
 import { formatPrice, getOfferByKey, getOfferPrice, Product, getProductsByAvailability, products } from "../data/products";
 import FuttleVisual from "./FuttleVisual";
 
+const clubProducts = [
+  {
+    name: "Real Madrid",
+    image: "/f_rm_eyeview.webp",
+  },
+  {
+    name: "FC Barcelona",
+    image: "/f_fcb_eyeview.webp",
+  },
+  {
+    name: "Manchester United",
+    image: "/f_mu_eyeview.webp",
+  },
+  {
+    name: "Liverpool FC",
+    image: "/f_lfc_eyevie.webp",
+  },
+  {
+    name: "Arsenal FC",
+    image: "/f_afc_eyeview.webp",
+  },
+];
+
+type CatalogueItem =
+  | { type: "product"; product: Product }
+  | { type: "club"; name: string; image?: string };
+
 function ProductArtwork({
   product,
   interactive,
@@ -47,6 +74,49 @@ function ProductArtwork({
       interactive={interactive}
       className="h-[75%] w-[75%] drop-shadow-[0_12px_24px_rgba(0,0,0,0.4)]"
     />
+  );
+}
+
+function ClubCard({ name, image }: { name: string; image?: string }) {
+  return (
+    <article className="group flex flex-col justify-between rounded-2xl border border-border-theme bg-card-theme p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-panel-theme">
+      <div>
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border-theme bg-bg-theme">
+          <div className="absolute left-3 top-3 rounded-full border border-border-theme bg-black/70 px-2.5 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/80 backdrop-blur-sm">
+            Coming soon
+          </div>
+          {image ? (
+            <Image
+              src={image}
+              alt={`Futtle ${name} eye-level view`}
+              fill
+              sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 100vw"
+              className="object-contain p-2 scale-[1.12] transition-transform duration-500 group-hover:scale-[1.14]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center px-6 text-center">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-theme/25">
+                Club artwork incoming
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-4 flex items-start justify-between gap-2">
+          <div>
+            <h3 className="font-display text-sm font-bold uppercase text-text-theme transition-colors duration-300 group-hover:text-accent-active">
+              Futtle {name}
+            </h3>
+            <p className="mt-0.5 font-mono text-[8px] uppercase tracking-wider text-text-theme/40">
+              Club Edition
+            </p>
+          </div>
+          <p className="rounded-full border border-white/10 bg-white/5 px-2 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/50">
+            Soon
+          </p>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -263,9 +333,34 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
   );
 }
 
-export default function ShopSection() {
+export default function ShopSection({ preview = false }: { preview?: boolean }) {
   const [previewProduct, setPreviewProduct] = useState<Product | null>(null);
   const visibleProducts = getProductsByAvailability(products);
+  const getProduct = (id: string) => products.find((product) => product.id === id);
+  const previewItems: CatalogueItem[] = [];
+  const brasilProduct = getProduct("brasil");
+  const argentinaProduct = getProduct("argentina");
+  const portugalProduct = getProduct("portugal");
+  const barcelonaProduct = clubProducts.find((club) => club.name === "FC Barcelona");
+
+  if (brasilProduct) {
+    previewItems.push({ type: "product", product: brasilProduct });
+  }
+  if (barcelonaProduct) {
+    previewItems.push({ type: "club", ...barcelonaProduct });
+  }
+  if (argentinaProduct) {
+    previewItems.push({ type: "product", product: argentinaProduct });
+  }
+  if (portugalProduct) {
+    previewItems.push({ type: "product", product: portugalProduct });
+  }
+  const catalogueItems: CatalogueItem[] = preview
+    ? previewItems
+    : [
+        ...visibleProducts.map((product) => ({ type: "product" as const, product })),
+        ...clubProducts.map((club) => ({ type: "club" as const, ...club })),
+      ];
 
   return (
     <section id="shop" className="relative px-4 py-20 sm:px-6 lg:px-8">
@@ -277,17 +372,31 @@ export default function ShopSection() {
               Shop Now.
             </h2>
           </div>
+          {preview ? (
+            <Link
+              href="/shop"
+              className="inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-border-theme bg-panel-theme px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-text-theme/70 transition-all duration-300 hover:border-accent-active hover:bg-accent-active hover:text-black"
+            >
+              View all
+            </Link>
+          ) : (
+            <p className="max-w-md text-sm leading-6 text-text-theme/45 md:text-right"> </p> 
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {visibleProducts.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              loading={index === 0 ? "eager" : "lazy"}
-              onPreview={setPreviewProduct}
-            />
-          ))}
+          {catalogueItems.map((item, index) =>
+            item.type === "product" ? (
+                <ProductCard
+                  key={item.product.id}
+                  product={item.product}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  onPreview={setPreviewProduct}
+                />
+              ) : (
+                <ClubCard key={item.name} name={item.name} image={item.image} />
+              )
+          )}
         </div>
       </div>
 
