@@ -1,4 +1,7 @@
 import React from "react";
+import Image from "next/image";
+
+const pickupGamesHref = "https://app.humansoffootball.in/";
 
 export default function CommunityPosters() {
   return (
@@ -13,32 +16,30 @@ export default function CommunityPosters() {
               Community
             </p>
             <h2 className="mt-2 font-display text-4xl font-bold uppercase leading-[0.9] tracking-[-0.05em] text-text-theme sm:text-5xl lg:text-6xl">
-              Event posters live here.
+              Join a pickup game.
             </h2>
           </div>
           <p className="max-w-md text-base leading-7 text-text-theme/55">
-            A reserved wall for local rallies, drops, meetups, and street sessions once the community calendar is ready.
+            Find nearby football sessions, join a group, and show up ready to play.
           </p>
         </div>
 
         <div className="flex justify-center">
-          <div className="group relative flex aspect-[4/5] w-full max-w-sm flex-col justify-between overflow-hidden rounded-[1.75rem] border border-border-theme bg-[linear-gradient(180deg,var(--card-bg),var(--panel-bg))] p-5 shadow-[0_18px_44px_rgba(0,0,0,0.14)] transition-all duration-300 hover:-translate-y-1 hover:bg-panel-theme sm:max-w-md">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,var(--accent-glow),transparent_34%),radial-gradient(circle_at_80%_80%,rgba(255,77,26,0.12),transparent_30%)] opacity-80" />
-            <div className="relative flex items-center justify-between">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-theme/35">
-                Featured poster
-              </p>
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-active" />
-            </div>
-            <div className="relative">
-              <p className="font-display text-3xl font-bold uppercase leading-none tracking-[-0.05em] text-text-theme sm:text-4xl">
-                Coming soon
-              </p>
-              <p className="mt-3 text-sm leading-6 text-text-theme/50">
-                Drop one community event poster here.
-              </p>
-            </div>
-          </div>
+          <a
+            href={pickupGamesHref}
+            className="group relative aspect-[864/1216] w-full max-w-sm overflow-hidden rounded-[1.75rem] border border-border-theme bg-card-theme shadow-[0_18px_44px_rgba(0,0,0,0.14)] transition-all duration-300 hover:-translate-y-1 hover:border-accent-active hover:shadow-[0_0_30px_var(--accent-glow)] sm:max-w-md"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open pickup games"
+          >
+            <Image
+              src="/poster.jpeg"
+              alt="Pickup games poster"
+              fill
+              sizes="(min-width: 640px) 28rem, calc(100vw - 2rem)"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            />
+          </a>
         </div>
       </div>
     </section>
