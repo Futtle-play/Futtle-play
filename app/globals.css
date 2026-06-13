@@ -15,39 +15,69 @@
   --accent-glow: rgba(0, 128, 43, 0.15);
   --accent-classic: #00802b;
   --accent-argentina: #1b5ba4;
+  --accent-brazil: #9a8806;
   --accent-brasil: #9a8806;
   --accent-portugal: #be123c;
   --accent-france: #1b5ba4;
+  --accent-real-madrid: #8a6b20;
+  --accent-barcelona: #8a0038;
+  --accent-manchester-united: #b91c1c;
+  --accent-liverpool: #b91c1c;
+  --accent-arsenal: #b91c1c;
   --blob-1: rgba(0, 128, 43, 0.03);
   --blob-2: rgba(27, 78, 216, 0.02);
 
   /* Hover Border colors */
   --border-classic: rgba(0, 128, 43, 0.3);
   --border-argentina: rgba(27, 91, 164, 0.3);
+  --border-brazil: rgba(154, 136, 6, 0.3);
   --border-brasil: rgba(154, 136, 6, 0.3);
   --border-portugal: rgba(190, 18, 60, 0.3);
   --border-france: rgba(27, 91, 164, 0.3);
+  --border-real-madrid: rgba(138, 107, 32, 0.3);
+  --border-barcelona: rgba(138, 0, 56, 0.3);
+  --border-manchester-united: rgba(185, 28, 28, 0.3);
+  --border-liverpool: rgba(185, 28, 28, 0.3);
+  --border-arsenal: rgba(185, 28, 28, 0.3);
 
   /* Hover Glow shadow colors */
   --glow-classic: rgba(0, 128, 43, 0.08);
   --glow-argentina: rgba(27, 91, 164, 0.08);
+  --glow-brazil: rgba(154, 136, 6, 0.08);
   --glow-brasil: rgba(154, 136, 6, 0.08);
   --glow-portugal: rgba(190, 18, 60, 0.08);
   --glow-france: rgba(27, 91, 164, 0.08);
+  --glow-real-madrid: rgba(138, 107, 32, 0.08);
+  --glow-barcelona: rgba(138, 0, 56, 0.08);
+  --glow-manchester-united: rgba(185, 28, 28, 0.08);
+  --glow-liverpool: rgba(185, 28, 28, 0.08);
+  --glow-arsenal: rgba(185, 28, 28, 0.08);
 
   /* Button Glow shadow colors */
   --glow-button-classic: rgba(0, 128, 43, 0.25);
   --glow-button-argentina: rgba(27, 91, 164, 0.25);
+  --glow-button-brazil: rgba(154, 136, 6, 0.25);
   --glow-button-brasil: rgba(154, 136, 6, 0.25);
   --glow-button-portugal: rgba(190, 18, 60, 0.25);
   --glow-button-france: rgba(27, 91, 164, 0.25);
+  --glow-button-real-madrid: rgba(138, 107, 32, 0.25);
+  --glow-button-barcelona: rgba(138, 0, 56, 0.25);
+  --glow-button-manchester-united: rgba(185, 28, 28, 0.25);
+  --glow-button-liverpool: rgba(185, 28, 28, 0.25);
+  --glow-button-arsenal: rgba(185, 28, 28, 0.25);
 
   /* Hover Text colors */
   --accent-classic-text: #ffffff;
   --accent-argentina-text: #ffffff;
+  --accent-brazil-text: #ffffff;
   --accent-brasil-text: #ffffff;
   --accent-portugal-text: #ffffff;
   --accent-france-text: #ffffff;
+  --accent-real-madrid-text: #ffffff;
+  --accent-barcelona-text: #ffffff;
+  --accent-manchester-united-text: #ffffff;
+  --accent-liverpool-text: #ffffff;
+  --accent-arsenal-text: #ffffff;
 }
 
 .dark {
@@ -64,39 +94,69 @@
   --accent-glow: rgba(212, 255, 58, 0.15);
   --accent-classic: #d4ff3a;
   --accent-argentina: #75aadb;
+  --accent-brazil: #fded12;
   --accent-brasil: #fded12;
   --accent-portugal: #da121a;
   --accent-france: #75aadb;
+  --accent-real-madrid: #c7a24a;
+  --accent-barcelona: #edbb00;
+  --accent-manchester-united: #da291c;
+  --accent-liverpool: #c8102e;
+  --accent-arsenal: #ef0107;
   --blob-1: rgba(212, 255, 58, 0.08);
   --blob-2: rgba(255, 77, 26, 0.06);
 
   /* Hover Border colors */
   --border-classic: rgba(212, 255, 58, 0.3);
   --border-argentina: rgba(117, 170, 219, 0.3);
+  --border-brazil: rgba(253, 237, 18, 0.3);
   --border-brasil: rgba(253, 237, 18, 0.3);
   --border-portugal: rgba(218, 18, 26, 0.3);
   --border-france: rgba(117, 170, 219, 0.3);
+  --border-real-madrid: rgba(199, 162, 74, 0.3);
+  --border-barcelona: rgba(237, 187, 0, 0.3);
+  --border-manchester-united: rgba(218, 41, 28, 0.3);
+  --border-liverpool: rgba(200, 16, 46, 0.3);
+  --border-arsenal: rgba(239, 1, 7, 0.3);
 
   /* Hover Glow shadow colors */
   --glow-classic: rgba(212, 255, 58, 0.08);
   --glow-argentina: rgba(117, 170, 219, 0.08);
+  --glow-brazil: rgba(253, 237, 18, 0.08);
   --glow-brasil: rgba(253, 237, 18, 0.08);
   --glow-portugal: rgba(218, 18, 26, 0.08);
   --glow-france: rgba(117, 170, 219, 0.08);
+  --glow-real-madrid: rgba(199, 162, 74, 0.08);
+  --glow-barcelona: rgba(237, 187, 0, 0.08);
+  --glow-manchester-united: rgba(218, 41, 28, 0.08);
+  --glow-liverpool: rgba(200, 16, 46, 0.08);
+  --glow-arsenal: rgba(239, 1, 7, 0.08);
 
   /* Button Glow shadow colors */
   --glow-button-classic: rgba(212, 255, 58, 0.25);
   --glow-button-argentina: rgba(117, 170, 219, 0.25);
+  --glow-button-brazil: rgba(253, 237, 18, 0.25);
   --glow-button-brasil: rgba(253, 237, 18, 0.25);
   --glow-button-portugal: rgba(218, 18, 26, 0.25);
   --glow-button-france: rgba(117, 170, 219, 0.25);
+  --glow-button-real-madrid: rgba(199, 162, 74, 0.25);
+  --glow-button-barcelona: rgba(237, 187, 0, 0.25);
+  --glow-button-manchester-united: rgba(218, 41, 28, 0.25);
+  --glow-button-liverpool: rgba(200, 16, 46, 0.25);
+  --glow-button-arsenal: rgba(239, 1, 7, 0.25);
 
   /* Hover Text colors */
   --accent-classic-text: #000000;
   --accent-argentina-text: #000000;
+  --accent-brazil-text: #000000;
   --accent-brasil-text: #000000;
   --accent-portugal-text: #ffffff;
   --accent-france-text: #000000;
+  --accent-real-madrid-text: #000000;
+  --accent-barcelona-text: #000000;
+  --accent-manchester-united-text: #ffffff;
+  --accent-liverpool-text: #ffffff;
+  --accent-arsenal-text: #ffffff;
 }
 
 @theme {
@@ -130,6 +190,24 @@
   --color-panel: rgba(255, 255, 255, 0.04);
   --color-panel-strong: rgba(255, 255, 255, 0.07);
   --color-line: rgba(255, 255, 255, 0.08);
+}
+
+.world-cup-edition-text {
+  display: inline-block;
+  font-weight: 800;
+  background: linear-gradient(
+    105deg,
+    #E61D25 0%,
+    #E61D25 28%,
+    #FFFFFF 38%,
+    #FFFFFF 58%,
+    #3CAC3B 74%,
+    #EDE734 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 @keyframes float {

@@ -18,7 +18,7 @@ export default function PickupGames() {
             Find a football game near you.
           </h2>
           <p className="mt-6 max-w-2xl text-base leading-7 text-text-theme/60 sm:text-lg sm:leading-8">
-            Looking for people to play football with? Join a nearby game, bring your friends, or join solo and get a good session going. Simple, quick, and made for anyone who just wants to play.
+            Looking for people to play football with? Join a nearby game, bring your friends, or join solo and get a good session going. Simple, quick, and made for anyone who just wants to play. Don&apos;t forget to bring your Futtle.
           </p>
           <p className="mt-5 font-display text-2xl font-bold uppercase leading-none tracking-[-0.04em] text-accent-active sm:text-3xl">
             Daily pickup games in 20+ cities.

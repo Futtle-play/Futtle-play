@@ -104,12 +104,12 @@ export default function CartDrawer() {
                     </div>
                     <h3 className="font-display text-2xl font-bold uppercase text-white">Your bag is empty</h3>
                     <p className="mt-3 max-w-[260px] text-sm leading-6 text-[#f5f1e8]/55">
-                      Start with the Brazil Edition, then head to secure checkout when you are ready.
+                      Start with the Brazil World Cup Edition, then head to secure checkout when you are ready.
                     </p>
                   </div>
 
                   <Link
-                    href="/#shop"
+                    href="/shop"
                     onClick={closeCart}
                     className="inline-flex w-full items-center justify-center rounded-full bg-[#ff4d1a] px-5 py-4 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_4px_20px_rgba(255,77,26,0.22)] transition-all duration-300 hover:bg-[#ff4d1a]/90"
                   >
@@ -229,7 +229,7 @@ export default function CartDrawer() {
                     {isCheckingOut ? "Opening checkout..." : "Checkout securely"}
                   </button>
                   <Link
-                    href="/#shop"
+                    href="/shop"
                     onClick={closeCart}
                     className="inline-flex w-full items-center justify-center rounded-full border border-[#2a2a28]/80 bg-[#121211] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#f5f1e8]/65 transition-colors hover:border-[#f5f1e8]/30 hover:text-white"
                   >

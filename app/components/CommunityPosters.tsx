@@ -2,6 +2,18 @@ import React from "react";
 import Image from "next/image";
 
 const pickupGamesHref = "https://app.humansoffootball.in/";
+const posters = [
+  {
+    src: "/poster.jpeg",
+    alt: "Pickup games poster",
+    sizes: "(min-width: 1024px) 24rem, (min-width: 640px) 28rem, calc(100vw - 2rem)",
+  },
+  {
+    src: "/poster20.jpeg",
+    alt: "Pickup games event poster",
+    sizes: "(min-width: 1024px) 24rem, (min-width: 640px) 28rem, calc(100vw - 2rem)",
+  },
+];
 
 export default function CommunityPosters() {
   return (
@@ -24,22 +36,25 @@ export default function CommunityPosters() {
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <a
-            href={pickupGamesHref}
-            className="group relative aspect-[864/1216] w-full max-w-sm overflow-hidden rounded-[1.75rem] border border-border-theme bg-card-theme shadow-[0_18px_44px_rgba(0,0,0,0.14)] transition-all duration-300 hover:-translate-y-1 hover:border-accent-active hover:shadow-[0_0_30px_var(--accent-glow)] sm:max-w-md"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Open pickup games"
-          >
-            <Image
-              src="/poster.jpeg"
-              alt="Pickup games poster"
-              fill
-              sizes="(min-width: 640px) 28rem, calc(100vw - 2rem)"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-            />
-          </a>
+        <div className="mx-auto grid max-w-5xl grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 lg:gap-6">
+          {posters.map((poster) => (
+            <a
+              key={poster.src}
+              href={pickupGamesHref}
+              className="group relative aspect-[2/3] w-full max-w-sm overflow-hidden rounded-[1.75rem] border border-border-theme bg-card-theme shadow-[0_18px_44px_rgba(0,0,0,0.14)] transition-all duration-300 hover:-translate-y-1 hover:border-accent-active hover:shadow-[0_0_30px_var(--accent-glow)] sm:max-w-md"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open pickup games"
+            >
+              <Image
+                src={poster.src}
+                alt={poster.alt}
+                fill
+                sizes={poster.sizes}
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+            </a>
+          ))}
         </div>
       </div>
     </section>

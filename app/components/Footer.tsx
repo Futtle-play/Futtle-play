@@ -26,12 +26,12 @@ export default function Footer() {
               {products.map((product) => (
                 <li key={product.id}>
                   <Link href={`/shop/${product.id}`} className="text-left transition-colors hover:text-accent-active block">
-                    {product.edition.replace(" Edition", "")}
+                    {product.title.replace("Futtle ", "")}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/#shop" className="text-left transition-colors hover:text-accent-active block">
+                <Link href="/shop" className="text-left transition-colors hover:text-accent-active block">
                   All editions
                 </Link>
               </li>

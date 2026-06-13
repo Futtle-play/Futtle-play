@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import Footer from "../../components/Footer";
 import FuttleVisual from "../../components/FuttleVisual";
 import Navbar from "../../components/Navbar";
-import { formatPrice, getOfferByKey, getOfferPrice, products, ProductImage, ProductOfferKey } from "../../data/products";
+import { formatPrice, getOfferByKey, getOfferPrice, isWorldCupEdition, products, ProductImage, ProductOfferKey } from "../../data/products";
 import { useCart } from "../../context/CartContext";
 
 function ProductGalleryPrefetch({
@@ -52,6 +52,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
   const router = useRouter();
   const [activeView, setActiveView] = useState(0);
   const [offerKey, setOfferKey] = useState<ProductOfferKey>("single");
+  const [quantity, setQuantity] = useState(1);
   const [favourited, setFavourited] = useState(false);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -60,6 +61,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
   const viewCount = hasGallery ? gallery.length : 3;
   const selectedOffer = getOfferByKey(product, offerKey);
   const selectedPrice = getOfferPrice(product, selectedOffer);
+  const quantityLabel = `${quantity} ${quantity === 1 ? "set" : "sets"}`;
 
   const nextView = () => {
     setActiveView((prev) => (prev + 1) % viewCount);
@@ -291,16 +293,15 @@ export default function ProductDetailClient({ id }: { id: string }) {
 
             <div className="order-3 space-y-6 lg:col-span-5">
               <div>
-                <span
-                  className="inline-flex rounded-full border border-border-theme bg-panel-theme px-3 py-0.5 font-mono text-[9px] uppercase tracking-widest"
-                  style={{ color: `var(--accent-${product.id})` }}
-                >
-                  {product.edition}
+                <span className="inline-flex font-mono text-[11px] uppercase tracking-[0.14em] sm:text-xs">
+                  <span className={isWorldCupEdition(product) ? "world-cup-edition-text" : ""} style={isWorldCupEdition(product) ? undefined : { color: `var(--accent-${product.id})` }}>
+                    {product.edition}
+                  </span>
                 </span>
                 <h1 className="mt-3 font-display text-3xl font-bold uppercase leading-none tracking-tight text-text-theme sm:text-4xl">
                   {product.title}
                 </h1>
-                <p className="mt-1.5 text-xs font-mono uppercase tracking-wider text-text-theme/40">
+                <p className="mt-1.5 text-xs font-mono uppercase tracking-wider" style={{ color: "var(--prod-accent)" }}>
                   {product.kitTheme}
                 </p>
                 <div className="mt-4 flex items-baseline gap-3">
@@ -314,11 +315,8 @@ export default function ProductDetailClient({ id }: { id: string }) {
               </div>
 
               <div className="border-t border-border-theme pt-4">
-                <div className="mb-3 flex items-baseline justify-between">
+                <div className="mb-3 flex items-baseline">
                   <h3 className="font-mono text-[9px] uppercase tracking-wider text-text-theme/40">Available formats</h3>
-                  <span className="font-mono text-[8px] uppercase tracking-widest text-text-theme/30">
-                    Brazil live, others sold out
-                  </span>
                 </div>
                 <div className="grid grid-cols-2 gap-3 font-mono">
                   {product.offers.map((offer) => (
@@ -341,13 +339,41 @@ export default function ProductDetailClient({ id }: { id: string }) {
               </div>
 
               <div className="space-y-2.5 border-t border-border-theme pt-4">
-                <button
-                  onClick={() => addToCart(product, selectedOffer.key)}
-                  disabled={!product.isAvailable}
-                  className="w-full cursor-pointer rounded-full bg-text-theme py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] hover:shadow-[0_0_20px_var(--prod-glow-button)] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-text-theme/30 disabled:hover:bg-white/10 disabled:hover:text-text-theme/30 disabled:hover:shadow-none"
-                >
-                  {product.isAvailable ? `Add ${selectedOffer.shortLabel} to Bag` : "Sold out"}
-                </button>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  {product.isAvailable ? (
+                    <div className="flex min-h-12 items-center justify-between rounded-full border border-border-theme bg-panel-theme px-2 py-1 sm:w-36">
+                      <button
+                        onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-text-theme/60 transition-colors hover:bg-text-theme/10 hover:text-text-theme"
+                        aria-label="Decrease quantity"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
+                        </svg>
+                      </button>
+                      <span className="min-w-8 text-center font-mono text-xs font-bold text-text-theme" aria-label={quantityLabel}>
+                        {quantity}
+                      </span>
+                      <button
+                        onClick={() => setQuantity((current) => Math.min(99, current + 1))}
+                        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-text-theme/60 transition-colors hover:bg-text-theme/10 hover:text-text-theme"
+                        aria-label="Increase quantity"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="h-4 w-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
+                        </svg>
+                      </button>
+                    </div>
+                  ) : null}
+
+                  <button
+                    onClick={() => addToCart(product, selectedOffer.key, quantity)}
+                    disabled={!product.isAvailable}
+                    className="min-h-12 flex-1 cursor-pointer rounded-full bg-text-theme px-5 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-[var(--prod-accent)] hover:text-[var(--prod-text)] hover:shadow-[0_0_20px_var(--prod-glow-button)] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-text-theme/30 disabled:hover:bg-white/10 disabled:hover:text-text-theme/30 disabled:hover:shadow-none"
+                  >
+                    {product.isAvailable ? `Add ${quantityLabel} to Bag` : "Sold out"}
+                  </button>
+                </div>
 
                 <button
                   onClick={() => setFavourited((current) => !current)}
@@ -372,11 +398,6 @@ export default function ProductDetailClient({ id }: { id: string }) {
               </div>
 
               <p className="text-xs leading-relaxed text-text-theme/70 sm:text-sm">{product.description}</p>
-              {!product.isAvailable ? (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-text-theme/55">
-                  This edition is sold out for now.
-                </div>
-              ) : null}
 
               <div className="space-y-1 border-t border-border-theme pt-4">
                 <div className="border-b border-border-theme pb-3">

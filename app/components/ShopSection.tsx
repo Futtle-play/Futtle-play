@@ -4,35 +4,34 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";
-import { formatPrice, getOfferByKey, getOfferPrice, Product, getProductsByAvailability, products } from "../data/products";
+import { formatPrice, getOfferByKey, getOfferPrice, isWorldCupEdition, Product, getProductsByAvailability, products } from "../data/products";
 import FuttleVisual from "./FuttleVisual";
 
-const clubProducts = [
-  {
-    name: "Real Madrid",
-    image: "/f_rm_eyeview.webp",
-  },
-  {
-    name: "FC Barcelona",
-    image: "/f_fcb_eyeview.webp",
-  },
-  {
-    name: "Manchester United",
-    image: "/f_mu_eyeview.webp",
-  },
-  {
-    name: "Liverpool FC",
-    image: "/f_lfc_eyevie.webp",
-  },
-  {
-    name: "Arsenal FC",
-    image: "/f_afc_eyeview.webp",
-  },
-];
+function EditionLabel({
+  product,
+  className = "",
+}: {
+  product: Product;
+  className?: string;
+}) {
+  return (
+    <span className={`${isWorldCupEdition(product) ? "world-cup-edition-text" : ""} ${className}`}>
+      {product.edition}
+    </span>
+  );
+}
 
-type CatalogueItem =
-  | { type: "product"; product: Product }
-  | { type: "club"; name: string; image?: string };
+function sortByAvailabilityThenTitle(source: Product[]): Product[] {
+  return [...source].sort((left, right) => {
+    const availabilityScore = Number(right.isAvailable) - Number(left.isAvailable);
+
+    if (availabilityScore !== 0) {
+      return availabilityScore;
+    }
+
+    return left.title.localeCompare(right.title);
+  });
+}
 
 function ProductArtwork({
   product,
@@ -74,49 +73,6 @@ function ProductArtwork({
       interactive={interactive}
       className="h-[75%] w-[75%] drop-shadow-[0_12px_24px_rgba(0,0,0,0.4)]"
     />
-  );
-}
-
-function ClubCard({ name, image }: { name: string; image?: string }) {
-  return (
-    <article className="group flex flex-col justify-between rounded-2xl border border-border-theme bg-card-theme p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-panel-theme">
-      <div>
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border-theme bg-bg-theme">
-          <div className="absolute left-3 top-3 rounded-full border border-border-theme bg-black/70 px-2.5 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/80 backdrop-blur-sm">
-            Coming soon
-          </div>
-          {image ? (
-            <Image
-              src={image}
-              alt={`Futtle ${name} eye-level view`}
-              fill
-              sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 100vw"
-              className="object-contain p-2 scale-[1.12] transition-transform duration-500 group-hover:scale-[1.14]"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center px-6 text-center">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-theme/25">
-                Club artwork incoming
-              </p>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-4 flex items-start justify-between gap-2">
-          <div>
-            <h3 className="font-display text-sm font-bold uppercase text-text-theme transition-colors duration-300 group-hover:text-accent-active">
-              Futtle {name}
-            </h3>
-            <p className="mt-0.5 font-mono text-[8px] uppercase tracking-wider text-text-theme/40">
-              Club Edition
-            </p>
-          </div>
-          <p className="rounded-full border border-white/10 bg-white/5 px-2 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/50">
-            Soon
-          </p>
-        </div>
-      </div>
-    </article>
   );
 }
 
@@ -171,8 +127,8 @@ function ProductCard({
               <h3 className="font-display text-sm font-bold uppercase text-text-theme transition-colors duration-300 group-hover:text-[var(--prod-accent)]">
                 {product.title}
               </h3>
-              <p className="mt-0.5 font-mono text-[8px] uppercase tracking-wider text-text-theme/40">
-                {product.edition}
+              <p className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-text-theme/40">
+                <EditionLabel product={product} />
               </p>
             </div>
             {product.isAvailable ? (
@@ -249,11 +205,11 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
 
           <div className="space-y-6">
             <div>
-              <span
-                className="inline-flex rounded-full border border-border-theme bg-panel-theme px-2.5 py-0.5 font-mono text-[8px] uppercase tracking-widest"
-                style={{ color: `var(--accent-${product.id})` }}
-              >
-                {product.edition}
+              <span className="inline-flex font-mono text-[10px] uppercase tracking-[0.14em] sm:text-[11px]">
+                <EditionLabel
+                  product={product}
+                  className={isWorldCupEdition(product) ? "" : "text-[var(--prod-accent)]"}
+                />
               </span>
               <h2 id="preview-modal-title" className="mt-4 font-display text-3xl font-bold uppercase leading-none tracking-tight text-text-theme">
                 {product.title}
@@ -261,11 +217,6 @@ function PreviewModal({ product, onClose }: { product: Product; onClose: () => v
               <p className="mt-2 text-xs font-mono uppercase tracking-wider" style={{ color: `var(--accent-${product.id})` }}>
                 {product.kitTheme}
               </p>
-              {!product.isAvailable ? (
-                <p className="mt-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[8px] uppercase tracking-widest text-text-theme/60">
-                  Sold out for now
-                </p>
-              ) : null}
             </div>
 
             <p className="text-xs leading-relaxed text-text-theme/70 sm:text-sm">{product.description}</p>
@@ -337,39 +288,36 @@ export default function ShopSection({ preview = false }: { preview?: boolean }) 
   const [previewProduct, setPreviewProduct] = useState<Product | null>(null);
   const visibleProducts = getProductsByAvailability(products);
   const getProduct = (id: string) => products.find((product) => product.id === id);
-  const previewItems: CatalogueItem[] = [];
-  const brasilProduct = getProduct("brasil");
+  const previewProducts: Product[] = [];
   const argentinaProduct = getProduct("argentina");
+  const brazilProduct = getProduct("brazil");
   const portugalProduct = getProduct("portugal");
-  const barcelonaProduct = clubProducts.find((club) => club.name === "FC Barcelona");
+  const franceProduct = getProduct("france");
 
-  if (brasilProduct) {
-    previewItems.push({ type: "product", product: brasilProduct });
-  }
-  if (barcelonaProduct) {
-    previewItems.push({ type: "club", ...barcelonaProduct });
-  }
   if (argentinaProduct) {
-    previewItems.push({ type: "product", product: argentinaProduct });
+    previewProducts.push(argentinaProduct);
+  }
+  if (brazilProduct) {
+    previewProducts.push(brazilProduct);
   }
   if (portugalProduct) {
-    previewItems.push({ type: "product", product: portugalProduct });
+    previewProducts.push(portugalProduct);
   }
-  const catalogueItems: CatalogueItem[] = preview
-    ? previewItems
-    : [
-        ...visibleProducts.map((product) => ({ type: "product" as const, product })),
-        ...clubProducts.map((club) => ({ type: "club" as const, ...club })),
-      ];
+  if (franceProduct) {
+    previewProducts.push(franceProduct);
+  }
+  const displayedProducts = preview ? sortByAvailabilityThenTitle(previewProducts) : visibleProducts;
 
   return (
     <section id="shop" className="relative px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex max-w-7xl flex-col gap-4 border-b border-border-theme pb-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent-active">Catalogue</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-accent-active">
+              {preview ? "Shop now" : "Shop"}
+            </p>
             <h2 className="mt-1 font-display text-2xl font-bold uppercase leading-none tracking-tight text-text-theme sm:text-3xl">
-              Shop Now.
+              {preview ? <span className="world-cup-edition-text">World Cup Edition</span> : "Shop Now."}
             </h2>
           </div>
           {preview ? (
@@ -377,7 +325,7 @@ export default function ShopSection({ preview = false }: { preview?: boolean }) 
               href="/shop"
               className="inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-border-theme bg-panel-theme px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-text-theme/70 transition-all duration-300 hover:border-accent-active hover:bg-accent-active hover:text-black"
             >
-              View all
+              View shop
             </Link>
           ) : (
             <p className="max-w-md text-sm leading-6 text-text-theme/45 md:text-right"> </p> 
@@ -385,18 +333,14 @@ export default function ShopSection({ preview = false }: { preview?: boolean }) 
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {catalogueItems.map((item, index) =>
-            item.type === "product" ? (
-                <ProductCard
-                  key={item.product.id}
-                  product={item.product}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  onPreview={setPreviewProduct}
-                />
-              ) : (
-                <ClubCard key={item.name} name={item.name} image={item.image} />
-              )
-          )}
+          {displayedProducts.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              loading={index === 0 ? "eager" : "lazy"}
+              onPreview={setPreviewProduct}
+            />
+          ))}
         </div>
       </div>
 

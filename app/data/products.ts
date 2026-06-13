@@ -46,6 +46,9 @@ export interface Product {
   };
 }
 
+const worldCupEdition = "World Cup Edition";
+const worldCupProductIds = new Set(["argentina", "brazil", "portugal", "france"]);
+
 const defaultOffers: ProductOffer[] = [
   {
     key: "single",
@@ -69,7 +72,7 @@ export const products: Product[] = [
     id: "argentina",
     shopifyHandle: "futtle-argentina",
     title: "Futtle Argentina",
-    edition: "Argentina Edition",
+    edition: worldCupEdition,
     basePrice: 199,
     currencyCode: "INR",
     currencySymbol: "₹",
@@ -103,10 +106,10 @@ export const products: Product[] = [
     },
   },
   {
-    id: "brasil",
+    id: "brazil",
     shopifyHandle: "futtle-brasil",
     title: "Futtle Brazil",
-    edition: "Brazil Edition",
+    edition: worldCupEdition,
     basePrice: 199,
     currencyCode: "INR",
     currencySymbol: "₹",
@@ -192,7 +195,7 @@ export const products: Product[] = [
     id: "portugal",
     shopifyHandle: "futtle-portugal",
     title: "Futtle Portugal",
-    edition: "Portugal Edition",
+    edition: worldCupEdition,
     basePrice: 199,
     currencyCode: "INR",
     currencySymbol: "₹",
@@ -229,7 +232,7 @@ export const products: Product[] = [
     id: "france",
     shopifyHandle: "futtle-france",
     title: "Futtle France",
-    edition: "France Edition",
+    edition: worldCupEdition,
     basePrice: 199,
     currencyCode: "INR",
     currencySymbol: "₹",
@@ -262,6 +265,191 @@ export const products: Product[] = [
       aerodynamics: "Symmetric hover-drift profile",
     },
   },
+  {
+    id: "real-madrid",
+    shopifyHandle: "futtle-real-madrid",
+    title: "Futtle Real Madrid",
+    edition: "Real Madrid Club Edition",
+    basePrice: 199,
+    currencyCode: "INR",
+    currencySymbol: "₹",
+    offers: defaultOffers,
+    tagline: "Los Blancos. Clean control under pressure.",
+    description:
+      "A white-and-gold club build for first-touch flex and clean keep-ups. The Real Madrid edition uses crisp white feathers over a gold-accented base, tuned for composed stalls, controlled toe taps, and polished street-game sessions.",
+    isAvailable: false,
+    colors: {
+      primary: "#ffffff",
+      secondary: "#c7a24a",
+      accent: "#5f2eea",
+      glow: "rgba(199, 162, 74, 0.15)",
+      gradient: "from-zinc-200/20 to-zinc-950 border-yellow-300/20",
+    },
+    kitTheme: "Royal White & Trophy Gold",
+    gallery: [
+      {
+        src: "/f_rm_eyeview.webp",
+        alt: "Futtle Real Madrid eye-level view",
+        width: 1448,
+        height: 1086,
+        blurDataURL: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoQAAwABUB8JZwAAxeLp3uz1AAA/mXrzqAFFe+kFX2E7Kedpo82EyNO18Unaaf38Lbk8+BQAAA=",
+      },
+    ],
+    specs: {
+      feathers: "White Club-Tuned Feathers (x4)",
+      weight: "15g (Balanced control)",
+      base: "Dual-Density Vulcanized Rubber (White/Gold)",
+      aerodynamics: "Composed stall-and-touch profile",
+    },
+  },
+  {
+    id: "barcelona",
+    shopifyHandle: "futtle-barcelona",
+    title: "Futtle FC Barcelona",
+    edition: "FC Barcelona Club Edition",
+    basePrice: 199,
+    currencyCode: "INR",
+    currencySymbol: "₹",
+    offers: defaultOffers,
+    tagline: "Blaugrana rhythm. Fast feet, soft touch.",
+    description:
+      "Built around Barcelona's blue-and-garnet energy, this club edition is tuned for quick link-up touches, low juggles, and smooth directional control. A bold feather set and deep base color make it feel unmistakably Barca in hand and in play.",
+    isAvailable: false,
+    colors: {
+      primary: "#004d98",
+      secondary: "#a50044",
+      accent: "#edbb00",
+      glow: "rgba(165, 0, 68, 0.15)",
+      gradient: "from-blue-950/40 to-red-950/30 border-red-500/20",
+    },
+    kitTheme: "Blaugrana Blue & Garnet",
+    gallery: [
+      {
+        src: "/f_fcb_eyeview.webp",
+        alt: "Futtle FC Barcelona eye-level view",
+        width: 1184,
+        height: 896,
+        blurDataURL: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAQAgCdASoQAAwABUB8JZwAAveH3cVFORqAAP5l4li8/+nKgbRPeAYlaaO4k6CGK1ccaRGiji+CkZZUAAA=",
+      },
+    ],
+    specs: {
+      feathers: "Blue & Garnet Club Feathers (x4)",
+      weight: "15.1g (Quick rhythm balance)",
+      base: "Dual-Density Vulcanized Rubber (Deep Blue/Red)",
+      aerodynamics: "Fast-touch rhythm profile",
+    },
+  },
+  {
+    id: "manchester-united",
+    shopifyHandle: "futtle-manchester-united",
+    title: "Futtle Manchester United",
+    edition: "Manchester United Club Edition",
+    basePrice: 199,
+    currencyCode: "INR",
+    currencySymbol: "₹",
+    offers: defaultOffers,
+    tagline: "Red attack. Direct pop.",
+    description:
+      "A red-and-black club edition made for aggressive pop-ups and direct freestyle play. Manchester United colors carry through the feathers and base, with a lively rebound that suits quick volleys, fast saves, and power touches.",
+    isAvailable: false,
+    colors: {
+      primary: "#da291c",
+      secondary: "#111111",
+      accent: "#fbe122",
+      glow: "rgba(218, 41, 28, 0.15)",
+      gradient: "from-red-950/40 to-zinc-950 border-red-500/20",
+    },
+    kitTheme: "United Red & Black",
+    gallery: [
+      {
+        src: "/f_mu_eyeview.webp",
+        alt: "Futtle Manchester United eye-level view",
+        width: 1184,
+        height: 896,
+        blurDataURL: "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACQAQCdASoQAAwABUB8JZwAAcPC4AAA/ftQt8DqO1jKXXFb60l7l/Cc3CmHc+g3xHI1eM/J6wCB44viq9uKAAAA",
+      },
+    ],
+    specs: {
+      feathers: "United Red Club Feathers (x4)",
+      weight: "15.2g (Direct rebound)",
+      base: "Dual-Density Vulcanized Rubber (Red/Black)",
+      aerodynamics: "Sharp pop-and-recover profile",
+    },
+  },
+  {
+    id: "liverpool",
+    shopifyHandle: "futtle-liverpool",
+    title: "Futtle Liverpool FC",
+    edition: "Liverpool FC Club Edition",
+    basePrice: 199,
+    currencyCode: "INR",
+    currencySymbol: "₹",
+    offers: defaultOffers,
+    tagline: "Anfield red. Relentless touch.",
+    description:
+      "A Liverpool red edition built for nonstop touches and long rally sessions. Bright red club styling meets a steady weighted base, giving the Futtle a reliable lift for keep-ups, passes, and fast recovery touches.",
+    isAvailable: false,
+    colors: {
+      primary: "#c8102e",
+      secondary: "#00b2a9",
+      accent: "#f6eb61",
+      glow: "rgba(200, 16, 46, 0.15)",
+      gradient: "from-red-950/40 to-cyan-950/20 border-red-500/20",
+    },
+    kitTheme: "Anfield Red & Teal Detail",
+    gallery: [
+      {
+        src: "/f_lfc_eyevie.webp",
+        alt: "Futtle Liverpool FC eye-level view",
+        width: 1184,
+        height: 896,
+        blurDataURL: "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAACQAQCdASoQAAwABUB8JZQAAcOb5tAA/ftQt8DqO1jKXXFb60l7l/Cc3CmHb5Jgu3OT73S5G3nfhhQxcgAAAA==",
+      },
+    ],
+    specs: {
+      feathers: "Liverpool Red Club Feathers (x4)",
+      weight: "15g (Endurance balance)",
+      base: "Dual-Density Vulcanized Rubber (Red/Teal)",
+      aerodynamics: "Steady rally-control profile",
+    },
+  },
+  {
+    id: "arsenal",
+    shopifyHandle: "futtle-arsenal",
+    title: "Futtle Arsenal FC",
+    edition: "Arsenal FC Club Edition",
+    basePrice: 199,
+    currencyCode: "INR",
+    currencySymbol: "₹",
+    offers: defaultOffers,
+    tagline: "North London red. Technical touch.",
+    description:
+      "A red-and-white club edition shaped for technical control, clean flicks, and tight-space juggling. Arsenal styling runs through the feather set and base, giving this build a crisp match-day look with a smooth, balanced flight.",
+    isAvailable: false,
+    colors: {
+      primary: "#ef0107",
+      secondary: "#ffffff",
+      accent: "#063672",
+      glow: "rgba(239, 1, 7, 0.15)",
+      gradient: "from-red-950/40 to-blue-950/20 border-red-500/20",
+    },
+    kitTheme: "Arsenal Red & White",
+    gallery: [
+      {
+        src: "/f_afc_eyeview.webp",
+        alt: "Futtle Arsenal FC eye-level view",
+        width: 1184,
+        height: 896,
+        blurDataURL: "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAACwAQCdASoQAAwABUB8JZQAAhcQ8VAAAP37ULfA6js8qe/XYjDjhOE5uFMO3yTBduco8wujqRrOrsmFYAA=",
+      },
+    ],
+    specs: {
+      feathers: "Arsenal Red & White Club Feathers (x4)",
+      weight: "15.1g (Technical balance)",
+      base: "Dual-Density Vulcanized Rubber (Red/White)",
+      aerodynamics: "Clean flick-and-stall profile",
+    },
+  },
 ];
 
 export function getOfferPrice(product: Product, offer: ProductOffer): number {
@@ -280,14 +468,21 @@ export function formatPrice(currencySymbol: string, amount: number): string {
   return `${currencySymbol}${amount}`;
 }
 
+export function isWorldCupEdition(product: Pick<Product, "id">): boolean {
+  return worldCupProductIds.has(product.id);
+}
+
 export function getProductsByAvailability(source: Product[] = products): Product[] {
-  return [...source].sort((left, right) => {
-    const availabilityScore = Number(right.isAvailable) - Number(left.isAvailable);
+  return source
+    .map((product, index) => ({ product, index }))
+    .sort((left, right) => {
+      const availabilityScore = Number(right.product.isAvailable) - Number(left.product.isAvailable);
 
-    if (availabilityScore !== 0) {
-      return availabilityScore;
-    }
+      if (availabilityScore !== 0) {
+        return availabilityScore;
+      }
 
-    return left.title.localeCompare(right.title);
-  });
+      return left.index - right.index;
+    })
+    .map(({ product }) => product);
 }

@@ -29,6 +29,7 @@ export default function FuttleVisual({
           midRight: "#75aadb",
           right: "#ffffff",
         };
+      case "brazil":
       case "brasil":
         return {
           left: "#009c3b",  // Green

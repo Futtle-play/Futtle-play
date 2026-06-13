@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { getCustomerAccountUrl, isCustomerAccountConfigured } from "../../lib/customerAccounts";
 
@@ -13,10 +14,12 @@ export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
   const hiddenAtScrollY = useRef<number | null>(null);
+  const pathname = usePathname();
   const { cart, openCart } = useCart();
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
   const customerAccountHref = getCustomerAccountUrl();
   const customerAccountConfigured = isCustomerAccountConfigured();
+  const shopCtaLabel = pathname?.startsWith("/shop") ? "Shop" : "Shop Now";
   const scrollToHomeSection = (
     sectionId: string,
     closeMenu = false,
@@ -178,11 +181,11 @@ export default function Navbar() {
           </button>
 
           <Link
-            href="/#shop"
+            href="/shop"
             className="inline-flex min-h-11 items-center rounded-full bg-text-theme px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-bg-theme transition-all duration-300 hover:bg-accent-active hover:text-black hover:shadow-[0_0_20px_rgba(212,255,58,0.25)] sm:px-5"
           >
             <span className="sm:hidden">Shop</span>
-            <span className="hidden sm:inline">Shop Now</span>
+            <span className="hidden sm:inline">{shopCtaLabel}</span>
           </Link>
 
           <button

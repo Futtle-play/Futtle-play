@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { products } from "../../data/products";
 import ProductDetailClient from "./ProductDetailClient";
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   }
 
   return {
-    title: `Futtle ${product.edition} — ${product.currencySymbol}${product.basePrice} | FUTTLE`,
+    title: `${product.title} — ${product.currencySymbol}${product.basePrice} | FUTTLE`,
     description: product.description,
   };
 }
@@ -35,6 +35,10 @@ export function generateStaticParams() {
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { id } = await params;
+
+  if (id === "brasil") {
+    redirect("/shop/brazil");
+  }
 
   if (!getProductById(id)) {
     notFound();

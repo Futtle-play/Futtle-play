@@ -61,7 +61,7 @@ export default function Hero() {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 animate-fade-in">
             <Link
-              href="/#shop"
+              href="/shop"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent-active px-7 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white dark:text-black transition-all duration-300 hover:bg-text-theme hover:text-bg-theme hover:shadow-[0_0_24px_rgba(212,255,58,0.35)]"
             >
               Shop Now
