@@ -25,10 +25,10 @@ export default function CommunityPosters() {
         <div className="mb-8 flex flex-col gap-4 border-b border-border-theme pb-5 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent-active sm:text-[10px] sm:tracking-[0.2em]">
-              Community
+              Community Events
             </p>
             <h2 className="mt-2 font-display text-4xl font-bold uppercase leading-[0.9] tracking-[-0.05em] text-text-theme sm:text-5xl lg:text-6xl">
-              Join a pickup game.
+              Join a juggling session around you 
             </h2>
           </div>
           <p className="max-w-md text-base leading-7 text-text-theme/55">
