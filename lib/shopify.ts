@@ -149,6 +149,8 @@ function getHandleCandidates(handle: string): string[] {
 function resolveVariant(product: ShopifyProductNode | undefined, variantTitle: string): ShopifyVariantNode | undefined {
   const variants = product?.variants.edges.map(({ node }) => node) ?? [];
 
+  // Best case is an exact title match with app/data/products.ts.
+  // The fallbacks keep checkout from crashing, but Shopify variant names should still be kept aligned.
   return (
     variants.find((variant) => variant.title === variantTitle && variant.availableForSale) ??
     variants.find((variant) => variant.availableForSale) ??

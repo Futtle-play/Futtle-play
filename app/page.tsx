@@ -16,6 +16,7 @@ export default function Home() {
       <Navbar />
 
       <main className="flex-1 relative z-10">
+        {/* Homepage section order is the order customers see while scrolling. */}
         <Hero />
         <ShopSection preview />
         <CommunityPosters />

@@ -2,6 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 const pickupGamesHref = "https://app.humansoffootball.in/";
+
+// Event posters are intentionally simple: drop the image in /public and swap
+// the src here. The shared 2:3 frame below keeps mixed poster sizes looking even.
 const posters = [
   {
     src: "/poster.jpeg",

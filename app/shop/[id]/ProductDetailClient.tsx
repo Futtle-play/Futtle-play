@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import Footer from "../../components/Footer";
 import FuttleVisual from "../../components/FuttleVisual";
 import Navbar from "../../components/Navbar";
-import { formatPrice, getOfferByKey, getOfferPrice, isWorldCupEdition, products, ProductImage, ProductOfferKey } from "../../data/products";
+import { formatPrice, getOfferByKey, getOfferPrice, isWorldCupEdition, products, ProductImage, ProductOfferKey, ProductVideo } from "../../data/products";
 import { useCart } from "../../context/CartContext";
 
 function ProductGalleryPrefetch({
@@ -23,6 +23,8 @@ function ProductGalleryPrefetch({
       return;
     }
 
+    // Small quality-of-life bit: after the first view loads, warm the rest of
+    // the product photos quietly so clicking thumbnails feels instant.
     const timeout = window.setTimeout(() => {
       gallery.forEach((image, index) => {
         if (index === activeIndex) {
@@ -39,6 +41,39 @@ function ProductGalleryPrefetch({
   }, [activeIndex, gallery]);
 
   return null;
+}
+
+function ProductVideos({ videos }: { videos: ProductVideo[] }) {
+  if (videos.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-3 border-t border-border-theme pt-4">
+      <h3 className="font-mono text-[9px] uppercase tracking-wider text-text-theme/40">Videos</h3>
+      <div className="grid gap-3">
+        {videos.map((video) => (
+          <div key={video.src} className="overflow-hidden rounded-xl border border-border-theme bg-panel-theme">
+            <video
+              controls
+              preload="none"
+              poster={video.poster}
+              className="aspect-video w-full bg-black object-cover"
+            >
+              <source src={video.src} type={video.type ?? "video/mp4"} />
+              {video.caption ? (
+                <track src={video.caption} kind="captions" srcLang="en" label="English" />
+              ) : null}
+              Your browser does not support the video tag.
+            </video>
+            <p className="px-3 py-2 font-mono text-[9px] uppercase tracking-wider text-text-theme/45">
+              {video.title}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function ProductDetailClient({ id }: { id: string }) {
@@ -58,6 +93,8 @@ export default function ProductDetailClient({ id }: { id: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const gallery = product.gallery ?? [];
   const hasGallery = gallery.length > 0;
+  // Three fallback views keep the old layout working if a product is added
+  // before its real photos. Proper products should still get a gallery array.
   const viewCount = hasGallery ? gallery.length : 3;
   const selectedOffer = getOfferByKey(product, offerKey);
   const selectedPrice = getOfferPrice(product, selectedOffer);
@@ -111,7 +148,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
           fill
           loading="lazy"
           unoptimized
-          placeholder="blur"
+          placeholder={gallery[viewIndex].blurDataURL ? "blur" : "empty"}
           blurDataURL={gallery[viewIndex].blurDataURL}
           sizes={compact ? "72px" : "92px"}
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -161,7 +198,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
               Home
             </Link>
             <span className="mx-2">/</span>
-            <Link href="/#shop" className="transition-colors hover:text-text-theme">
+            <Link href="/shop" className="transition-colors hover:text-text-theme">
               Shop
             </Link>
             <span className="mx-2">/</span>
@@ -176,7 +213,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
                   return;
                 }
 
-                router.push("/#shop");
+                router.push("/shop");
               }}
               className="inline-flex items-center gap-2 rounded-full border border-border-theme bg-panel-theme px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-text-theme/70 transition-colors hover:border-text-theme/40 hover:text-text-theme"
             >
@@ -213,7 +250,7 @@ export default function ProductDetailClient({ id }: { id: string }) {
                         fill
                         loading="eager"
                         unoptimized
-                        placeholder="blur"
+                        placeholder={gallery[activeView].blurDataURL ? "blur" : "empty"}
                         blurDataURL={gallery[activeView].blurDataURL}
                         sizes="(min-width: 1024px) 40vw, 100vw"
                         className="object-contain p-4"
@@ -398,6 +435,8 @@ export default function ProductDetailClient({ id }: { id: string }) {
               </div>
 
               <p className="text-xs leading-relaxed text-text-theme/70 sm:text-sm">{product.description}</p>
+
+              <ProductVideos videos={product.videos ?? []} />
 
               <div className="space-y-1 border-t border-border-theme pt-4">
                 <div className="border-b border-border-theme pb-3">

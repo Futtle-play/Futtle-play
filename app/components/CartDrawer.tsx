@@ -2,11 +2,17 @@
 
 import React, { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "../context/CartContext";
+import { products } from "../data/products";
 import FuttleVisual from "./FuttleVisual";
 
 function getCartItemKey(id: string, offerKey: string): string {
   return `${id}:${offerKey}`;
+}
+
+function getCartItemImage(id: string) {
+  return products.find((product) => product.id === id)?.gallery?.[0];
 }
 
 export default function CartDrawer() {
@@ -120,18 +126,35 @@ export default function CartDrawer() {
                 <div className="space-y-6">
                   {cart.map((item) => {
                     const itemKey = getCartItemKey(item.id, item.offerKey);
+                    // The saved cart only stores checkout data. Looking up the photo
+                    // here keeps older saved carts working after product image changes.
+                    const itemImage = getCartItemImage(item.id);
 
                     return (
                       <div key={itemKey} className="flex gap-4 border-b border-[#2a2a28]/40 py-4 last:border-b-0">
-                        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[#2a2a28]/50 bg-[#121211] p-2">
-                          <FuttleVisual
-                            id={item.id}
-                            primaryColor={item.colors.primary}
-                            secondaryColor={item.colors.secondary}
-                            accentColor={item.colors.accent}
-                            interactive={false}
-                            className="h-12 w-12"
-                          />
+                        <div className="relative flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[#2a2a28]/50 bg-[#121211] p-2">
+                          {itemImage ? (
+                            <Image
+                              src={itemImage.src}
+                              alt={itemImage.alt}
+                              fill
+                              loading="lazy"
+                              unoptimized
+                              placeholder={itemImage.blurDataURL ? "blur" : "empty"}
+                              blurDataURL={itemImage.blurDataURL}
+                              sizes="80px"
+                              className="object-contain p-2"
+                            />
+                          ) : (
+                            <FuttleVisual
+                              id={item.id}
+                              primaryColor={item.colors.primary}
+                              secondaryColor={item.colors.secondary}
+                              accentColor={item.colors.accent}
+                              interactive={false}
+                              className="h-12 w-12"
+                            />
+                          )}
                         </div>
 
                         <div className="flex flex-1 flex-col justify-between">

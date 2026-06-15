@@ -44,6 +44,8 @@ function ProductArtwork({
 }) {
   const firstImage = product.gallery?.[0];
 
+  // The first gallery photo is the product card photo. If a future product is
+  // added before photos are ready, FuttleVisual now falls back to a real Futtle photo.
   if (firstImage) {
     return (
       <div className="relative h-full w-full">
@@ -53,7 +55,7 @@ function ProductArtwork({
           fill
           loading={loading}
           unoptimized
-          placeholder="blur"
+          placeholder={firstImage.blurDataURL ? "blur" : "empty"}
           blurDataURL={firstImage.blurDataURL}
           sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 100vw"
           className={`object-contain transition-transform duration-500 ${

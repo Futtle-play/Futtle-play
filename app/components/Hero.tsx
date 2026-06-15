@@ -99,6 +99,7 @@ export default function Hero() {
             <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_50%_24%,rgba(212,255,58,0.12),transparent_34%),radial-gradient(circle_at_50%_85%,rgba(255,77,26,0.12),transparent_28%)]" />
 
             <Image
+              // Homepage hero product photo. Swap this src if the client wants a new lead visual.
               src="/f_b_nobg.webp"
               alt="Futtle Brazil"
               fill

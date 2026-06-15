@@ -14,7 +14,15 @@ export interface ProductImage {
   alt: string;
   width: number;
   height: number;
-  blurDataURL: string;
+  blurDataURL?: string;
+}
+
+export interface ProductVideo {
+  title: string;
+  src: string;
+  type?: string;
+  poster?: string;
+  caption?: string;
 }
 
 export interface Product {
@@ -38,6 +46,7 @@ export interface Product {
   };
   kitTheme: string;
   gallery?: ProductImage[];
+  videos?: ProductVideo[];
   specs: {
     feathers: string;
     weight: string;
@@ -49,6 +58,10 @@ export interface Product {
 const worldCupEdition = "World Cup Edition";
 const worldCupProductIds = new Set(["argentina", "brazil", "portugal", "france"]);
 
+// Offer names live here because all current products use the same two choices.
+// label = what the customer sees on the site.
+// shopifyVariantTitle = the exact Shopify variant title checkout searches for.
+// Leave key as "single" / "three-pack" unless you are changing the cart code too.
 const defaultOffers: ProductOffer[] = [
   {
     key: "single",
@@ -67,6 +80,11 @@ const defaultOffers: ProductOffer[] = [
   },
 ];
 
+// Main client-editing note:
+// add product photos in the gallery arrays below. Put the files in /public first,
+// then use paths like "/f_b_eyeview.webp". The first gallery image becomes the
+// shop card image, cart thumbnail, and main product page image.
+// blurDataURL is nice for polish, but it is optional so future photo updates are not blocked by it.
 export const products: Product[] = [
   {
     id: "argentina",

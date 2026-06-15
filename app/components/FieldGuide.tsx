@@ -2,12 +2,22 @@
 
 import React from "react";
 
+interface GuideVideo {
+  title: string;
+  src?: string;
+  type?: string;
+  poster?: string;
+  caption?: string;
+}
+
 export default function FieldGuide() {
-  const videos = [
-    "Basic sequence",
-    "Inside touch",
-    "Control rhythm",
-    "Friend rally",
+  // Homepage video cards live here. Add src/poster when the client has real clips;
+  // until then these stay as clean placeholders and do not download video files.
+  const videos: GuideVideo[] = [
+    { title: "Basic sequence" },
+    { title: "Inside touch" },
+    { title: "Control rhythm" },
+    { title: "Friend rally" },
   ];
 
   return (
@@ -32,26 +42,41 @@ export default function FieldGuide() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {videos.map((video, idx) => (
             <div
-              key={video}
+              key={video.title}
               className="relative overflow-hidden rounded-[1.5rem] border border-border-theme bg-[linear-gradient(180deg,var(--card-bg),var(--panel-bg))] shadow-[0_18px_52px_rgba(0,0,0,0.18)]"
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_24%,rgba(212,255,58,0.14),transparent_35%),radial-gradient(circle_at_72%_76%,rgba(255,77,26,0.08),transparent_28%)]" />
               <div className="relative aspect-video w-full">
-                <div className="absolute left-4 top-4 rounded-full border border-border-theme bg-header-theme px-3 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-text-theme/50 backdrop-blur-md">
-                  {video}
+                <div className="absolute left-4 top-4 z-10 rounded-full border border-border-theme bg-header-theme px-3 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-text-theme/50 backdrop-blur-md">
+                  {video.title}
                 </div>
-                <div className="absolute right-4 top-4 rounded-full border border-border-theme bg-header-theme px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-text-theme/35 backdrop-blur-md">
+                <div className="absolute right-4 top-4 z-10 rounded-full border border-border-theme bg-header-theme px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-text-theme/35 backdrop-blur-md">
                   0{idx + 1}
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button
-                    type="button"
-                    aria-label={`Play ${video} video`}
-                    className="group flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md transition-transform duration-300 hover:scale-105"
+                {video.src ? (
+                  <video
+                    controls
+                    preload="none"
+                    poster={video.poster}
+                    className="h-full w-full bg-black object-cover"
                   >
-                    <div className="ml-1 h-0 w-0 border-y-[10px] border-y-transparent border-l-[15px] border-l-white/90 transition-colors duration-300 group-hover:border-l-white" />
-                  </button>
-                </div>
+                    <source src={video.src} type={video.type ?? "video/mp4"} />
+                    {video.caption ? (
+                      <track src={video.caption} kind="captions" srcLang="en" label="English" />
+                    ) : null}
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button
+                      type="button"
+                      aria-label={`Play ${video.title} video`}
+                      className="group flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md transition-transform duration-300 hover:scale-105"
+                    >
+                      <div className="ml-1 h-0 w-0 border-y-[10px] border-y-transparent border-l-[15px] border-l-white/90 transition-colors duration-300 group-hover:border-l-white" />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

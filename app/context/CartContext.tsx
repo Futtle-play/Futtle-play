@@ -47,6 +47,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Keep this restore step boring. The cart is local-only until checkout starts,
+    // so a bad saved value should fail quietly and let the customer keep browsing.
     const savedCart = localStorage.getItem("futtle_cart");
     if (!savedCart) {
       return;
@@ -72,6 +74,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const saveCart = (getNextCart: (currentCart: CartItem[]) => CartItem[]) => {
+    // One helper for React state + localStorage keeps quantity/add/remove behavior in sync.
     setCart((currentCart) => {
       const nextCart = getNextCart(currentCart);
       localStorage.setItem("futtle_cart", JSON.stringify(nextCart));
